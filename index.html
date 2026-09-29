@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAMEMOB Online Course – Free MOOC on Sustainable Urban Mobility</title>
+  <meta name="description" content="A free, self-paced online course on sustainable urban mobility and road safety for students aged 12–19, developed by the EU-funded GAMEMOB project." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.png" alt="GAMEMOB logo" class="nav-logo-img" />
+        <span>GAMEMOB<br><small>Online Course</small></span>
+      </a>
+      <div class="nav-right">
+        <img src="assets/eit-eu-logo.png" alt="EIT Urban Mobility – Co-funded by the European Union" class="eit-logo-img" />
+        <a href="https://www.gamemob.eu" class="back-link">← gamemob.eu</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════ HERO ══════ -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow">🎓 Free self-paced MOOC</span>
+        <h1>Play, Learn, Move Sustainably</h1>
+        <p class="lead">A free online course on sustainable urban mobility and road safety, built for students aged 12–19 by the EU-funded GAMEMOB project.</p>
+        <div class="hero-actions">
+          <a href="learn.html" class="btn btn-primary">Start the Course →</a>
+          <a href="#syllabus" class="btn btn-secondary">View Syllabus</a>
+        </div>
+        <div class="hero-meta">
+          <div><strong>5</strong><span>Modules</span></div>
+          <div><strong>10–12h</strong><span>Total length</span></div>
+          <div><strong>Free</strong><span>Open access</span></div>
+          <div><strong>EN</strong><span>More languages soon</span></div>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <h3>How this course works</h3>
+        <ol>
+          <li><span class="num">1</span> Work through 5 self-paced modules, each with short lessons</li>
+          <li><span class="num">2</span> Check your understanding with a quick quiz per module</li>
+          <li><span class="num">3</span> Your progress is saved automatically on this device</li>
+          <li><span class="num">4</span> Finish all modules to unlock your certificate</li>
+        </ol>
+        <a href="learn.html" class="btn btn-primary">Start Learning</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════ SYLLABUS ══════ -->
+  <section class="section" id="syllabus">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-tag">Syllabus</div>
+        <h2>What you'll learn</h2>
+        <p>Five modules covering the fundamentals of sustainable, safe urban mobility — from everyday habits to city-scale innovation.</p>
+      </div>
+
+      <div class="module-list" id="module-list"></div>
+    </div>
+  </section>
+
+  <!-- ══════ FEATURES ══════ -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-tag">Why this course</div>
+        <h2>Built for classrooms and self-study</h2>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="icon">🧩</div>
+          <h3>Bite-sized lessons</h3>
+          <p>Short, focused lessons designed to fit into a class period or a free afternoon.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">✅</div>
+          <h3>Instant feedback</h3>
+          <p>Quick quizzes after every module check understanding right away, with no grading wait.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🏅</div>
+          <h3>Completion certificate</h3>
+          <p>Finish all five modules to unlock a downloadable certificate of completion.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ CTA ══════ -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-band">
+        <h2>Ready to get started?</h2>
+        <p>No sign-up required — jump straight into Module 1.</p>
+        <a href="learn.html" class="btn btn-primary">Start the Course →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      Part of the <a href="https://www.gamemob.eu">GAMEMOB</a> project — co-funded by EIT Urban Mobility and the European Union.
+    </div>
+  </footer>
+
+  <script src="js/course-data.js"></script>
+  <script>
+    const list = document.getElementById('module-list');
+    COURSE.modules.forEach((m, i) => {
+      const row = document.createElement('a');
+      row.href = `learn.html?module=${m.id}`;
+      row.className = 'module-row';
+      row.innerHTML = `
+        <div class="module-num">${i + 1}</div>
+        <div class="module-body">
+          <h3>${m.title}</h3>
+          <p>${m.lessons.map(l => l.title).join(' · ')}</p>
+        </div>
+        <div class="module-meta">${m.lessons.length} lessons · 1 quiz</div>
+      `;
+      list.appendChild(row);
+    });
+  </script>
+</body>
+</html>
