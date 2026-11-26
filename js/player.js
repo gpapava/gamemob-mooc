@@ -17,11 +17,12 @@ function saveProgress(progress) {
   } catch (e) { /* storage unavailable — progress just won't persist */ }
 }
 
-// Build a flat, ordered list of items: lesson, lesson, ..., quiz, per module.
+// Build a flat, ordered list of items: lesson, lesson, ..., activity, quiz, per module.
 function buildItems() {
   const items = [];
   COURSE.modules.forEach(m => {
     m.lessons.forEach(l => items.push({ type: 'lesson', moduleId: m.id, moduleTitle: m.title, ...l }));
+    if (m.activity) items.push({ type: 'activity', moduleId: m.id, moduleTitle: m.title, ...m.activity });
     items.push({ type: 'quiz', moduleId: m.id, moduleTitle: m.title, ...m.quiz });
   });
   return items;
@@ -29,6 +30,46 @@ function buildItems() {
 
 const ITEMS = buildItems();
 let progress = loadProgress();
+
+/* ---- Minimal SCORM 1.2 runtime for the interactive activities ----
+   Each activity is a SCORM package that talks to window.API. Here the "LMS" is
+   this page: completion marks the course item as done, and suspend_data is kept
+   in localStorage so learners can come back to where they were. */
+let activeActivityId = null;
+let scormData = {};
+const SCORM_PREFIX = 'gamemob_scorm_v1_';
+
+function loadScormData(id) {
+  try { return JSON.parse(localStorage.getItem(SCORM_PREFIX + id)) || {}; } catch (e) { return {}; }
+}
+function saveScormData(id, data) {
+  try { localStorage.setItem(SCORM_PREFIX + id, JSON.stringify(data)); } catch (e) { /* ignore */ }
+}
+
+window.API = {
+  LMSInitialize() { return 'true'; },
+  LMSFinish() { return 'true'; },
+  LMSGetValue(key) { return scormData[key] || ''; },
+  LMSSetValue(key, value) {
+    if (!activeActivityId) return 'false';
+    scormData[key] = String(value);
+    saveScormData(activeActivityId, scormData);
+    if (key === 'cmi.core.lesson_status' && (value === 'completed' || value === 'passed')) {
+      if (!progress[activeActivityId]) {
+        markComplete(activeActivityId);
+        renderProgressBar();
+        renderSidebar(activeActivityId);
+        const flag = document.getElementById('activity-status');
+        if (flag) { flag.textContent = 'Completed \u2713'; flag.classList.add('done'); }
+      }
+    }
+    return 'true';
+  },
+  LMSCommit() { return 'true'; },
+  LMSGetLastError() { return '0'; },
+  LMSGetErrorString() { return ''; },
+  LMSGetDiagnostic() { return ''; }
+};
 
 function getParam(name) {
   return new URLSearchParams(window.location.search).get(name);
@@ -86,7 +127,8 @@ function renderSidebar(activeId) {
         + (item.id === activeId ? ' active' : '')
         + (progress[item.id] ? ' done' : '')
         + (item.type === 'quiz' ? ' quiz' : '');
-      row.innerHTML = `<span class="dot">${progress[item.id] ? '✓' : ''}</span><span>${item.type === 'quiz' ? '📝 ' : ''}${item.title}</span>`;
+      const marker = item.type === 'quiz' ? '📝 ' : '';
+      row.innerHTML = `<span class="dot">${progress[item.id] ? '✓' : ''}</span><span>${marker}${item.title}</span>`;
       row.addEventListener('click', (e) => {
         e.preventDefault();
         navigateTo(item.id);
@@ -142,6 +184,48 @@ function renderLesson(item) {
     if (next) navigateTo(next.id);
     else render();
   });
+}
+
+function renderActivity(item) {
+  const main = document.getElementById('main');
+  const next = nextItem(item.id);
+  const prev = prevItem(item.id);
+  activeActivityId = item.id;
+  scormData = loadScormData(item.id);
+
+  main.innerHTML = `
+    <div class="lesson-eyebrow">${item.moduleTitle}</div>
+    <h1 class="lesson-title">${item.title}</h1>
+    <p class="activity-intro">${item.intro}</p>
+    <div class="activity-bar">
+      <span id="activity-status" class="activity-status${progress[item.id] ? ' done' : ''}">${progress[item.id] ? 'Completed \u2713' : 'Not completed yet'}</span>
+      <a class="activity-dl" href="${item.zip}" download>Download as SCORM 1.2 package (.zip)</a>
+    </div>
+    <iframe id="activity-frame" class="activity-frame" title="${item.title}" src="${item.src}" loading="lazy"></iframe>
+    <div class="lesson-nav">
+      ${prev ? `<button class="btn btn-outline" id="btn-prev">← Back</button>` : `<span></span>`}
+      <span class="spacer"></span>
+      ${next ? `<button class="btn btn-primary" id="btn-next">Continue →</button>` : ''}
+    </div>
+  `;
+
+  const frame = document.getElementById('activity-frame');
+  function fit() {
+    try {
+      const doc = frame.contentDocument;
+      if (doc && doc.documentElement) frame.style.height = Math.max(520, doc.documentElement.scrollHeight + 4) + 'px';
+    } catch (e) { /* cross-origin: keep default height */ }
+  }
+  frame.addEventListener('load', () => {
+    fit();
+    try {
+      const doc = frame.contentDocument;
+      if (window.ResizeObserver && doc && doc.body) new ResizeObserver(fit).observe(doc.body);
+    } catch (e) { /* ignore */ }
+  });
+
+  if (prev) document.getElementById('btn-prev').addEventListener('click', () => navigateTo(prev.id));
+  if (next) document.getElementById('btn-next').addEventListener('click', () => navigateTo(next.id));
 }
 
 function renderQuiz(item) {
@@ -260,7 +344,9 @@ function render() {
   renderSidebar(item.id);
   renderProgressBar();
 
+  activeActivityId = null;
   if (item.type === 'quiz') renderQuiz(item);
+  else if (item.type === 'activity') renderActivity(item);
   else renderLesson(item);
 }
 

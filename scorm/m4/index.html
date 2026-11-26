@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Door to door</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .steps { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .steps span { font-size: .8125rem; font-weight: 700; padding: 3px 10px; border: var(--line); background: var(--paper-3); }
+  .steps span.cur { background: var(--yellow); }
+  .steps span.done { background: #cfe5d4; }
+  svg#chart { width: 100%; height: auto; display: block; background: var(--paper-3); border: var(--line); touch-action: none; }
+  svg text { font-family: "Helvetica Neue", Arial, sans-serif; fill: var(--ink); }
+  .gridline { stroke: #d6cfbc; stroke-width: 1; }
+  .big { font-family: Georgia, serif; font-size: 2.1rem; font-weight: 700; line-height: 1; }
+  .opts { display: flex; gap: 6px; flex-wrap: wrap; }
+  .opts button.on { background: var(--ink); color: var(--paper-3); }
+  .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: .8125rem; margin: 8px 0 0; }
+  .legend i { display: inline-block; width: 18px; height: 4px; margin-right: 6px; vertical-align: 3px; }
+  #detail td { font-variant-numeric: tabular-nums; }
+  .seg { display: inline-block; height: 12px; vertical-align: middle; border: 1px solid var(--ink); border-left: 0; }
+  .seg:first-child { border-left: 1px solid var(--ink); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div class="badge" aria-hidden="true">4</div>
+  <div>
+    <div class="kicker">Module 4 · Active Mobility</div>
+    <h1>Door to door</h1>
+    <p class="lede">Which is faster across a city, the bike or the car? It depends on what you count. Here the clock starts when you leave home and stops when you are inside the building.</p>
+  </div>
+</header>
+
+<div class="steps" id="steps"><span id="s1" class="cur">1 Guess</span><span id="s2">2 Test it</span><span id="s3">3 Compare</span></div>
+
+<section class="panel" id="guess-panel">
+  <h2>First, a guess</h2>
+  <p>Think of a normal weekday morning, with traffic. Roughly how long does the journey have to be before the car beats the bike, door to door?</p>
+  <div style="margin-top:12px; max-width:520px">
+    <label class="field" for="guess">Your guess: <b class="num" id="guess-val">6.0</b> km</label>
+    <input type="range" id="guess" min="1" max="15" step="0.5" value="6">
+    <p style="margin-top:12px"><button class="primary" id="lock">Lock in my guess</button></p>
+  </div>
+</section>
+
+<section id="lab" hidden>
+  <div class="row">
+    <div class="panel" style="flex: 2 1 300px; min-width: 0">
+      <svg id="chart" viewBox="0 0 640 340" role="img" aria-label="Chart of door to door time against distance for walking, cycling, bus and car"></svg>
+      <div class="legend" id="legend"></div>
+      <p class="small muted" style="margin-top:6px">Drag on the chart, or use the slider, to read the times at any distance.</p>
+    </div>
+    <div style="flex: 1 1 260px; min-width: 0">
+      <div class="panel">
+        <label class="field" for="dist">Distance: <b class="num" id="dist-val">3.0</b> km</label>
+        <input type="range" id="dist" min="0.5" max="15" step="0.5" value="3">
+        <h3 style="margin-top:14px">Traffic</h3>
+        <div class="opts" id="opt-traffic"></div>
+        <h3 style="margin-top:10px">Bus every</h3>
+        <div class="opts" id="opt-bus"></div>
+        <h3 style="margin-top:10px">Bike parking</h3>
+        <div class="opts" id="opt-park"></div>
+      </div>
+      <div class="panel">
+        <h3>At this distance</h3>
+        <table id="detail"><tbody></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="verdict" aria-live="polite"></div>
+
+  <details>
+    <summary>Assumptions</summary>
+    <ul>
+      <li>Walking 4.8 km/h. Cycling 14 km/h, plus 1 minute to lock up (3 if there is nowhere obvious to park). The bus averages 18 km/h in traffic, 24 when roads are free, with 5 minutes to walk to the stop and 3 at the end; the wait is half the interval.</li>
+      <li>Car: 1 minute to reach it, 22 km/h average in the rush hour (30 when free), then looking for a place to park (4 minutes in the rush, 2 when free) and 3 minutes' walk.</li>
+      <li>These are plausible urban averages, not measurements. Move the sliders: the point is the shape of the lines, not the exact crossing.</li>
+    </ul>
+  </details>
+</section>
+
+<div class="done-banner" id="done" role="status">
+  <strong>Done.</strong>
+  <p id="done-text" style="margin-top:4px"></p>
+</div>
+
+<script src="scorm.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="gamemob-mooc-m4" version="1.0"
+  xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+  xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+  </metadata>
+  <organizations default="org-m4">
+    <organization identifier="org-m4">
+      <title>Door to door</title>
+      <item identifier="item-m4" identifierref="res-m4" isvisible="true">
+        <title>Door to door</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="res-m4" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="app.js"/>
+      <file href="index.html"/>
+      <file href="scorm.js"/>
+      <file href="style.css"/>
+    </resource>
+  </resources>
+</manifest>

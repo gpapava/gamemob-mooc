@@ -419,3 +419,11 @@ footer a:hover { text-decoration: underline; }
   .player-sidebar { border-right: none; border-bottom: 1px solid var(--border); position: static; }
   .player-main { padding: 32px 20px 60px; }
 }
+
+/* Interactive (SCORM) activities */
+.activity-intro { color: var(--text-muted); margin-bottom: 14px; max-width: 62ch; }
+.activity-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; font-size: .875rem; }
+.activity-status { font-weight: 700; color: var(--text-muted); }
+.activity-status.done { color: var(--green-dark); }
+.activity-dl { color: var(--blue-mid); text-decoration: underline; text-underline-offset: 2px; }
+.activity-frame { display: block; width: 100%; height: 760px; border: 1.5px solid var(--border); border-radius: var(--radius); background: #f3efe6; }

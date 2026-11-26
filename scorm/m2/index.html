@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stopping distance</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  canvas { display: block; width: 100%; height: auto; border: 2.5px solid var(--ink); background: var(--paper-2); }
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .tabs button.done::after { content: " \2713"; }
+  .speed-out { font-family: Georgia, serif; font-size: 2.2rem; font-weight: 700; line-height: 1; }
+  .result { min-height: 3.2em; }
+  .result b { font-weight: 800; }
+  #log td:first-child { white-space: nowrap; }
+  .tag { font-size: .75rem; font-weight: 700; padding: 0 6px; border: var(--line); }
+  .tag.stop { background: #cfe5d4; }
+  .tag.hit { background: #f1cdc7; }
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div class="badge" aria-hidden="true">2</div>
+  <div>
+    <div class="kicker">Module 2 · Traffic Safety</div>
+    <h1>Will it stop in time?</h1>
+    <p class="lede">A child steps out onto the road. The driver is travelling at the speed you choose. You are looking for the highest speed at which the car still stops short, in three situations that all happen outside real schools.</p>
+  </div>
+</header>
+
+<div class="tabs" id="tabs" role="tablist"></div>
+
+<div class="panel">
+  <h2 id="sc-title"></h2>
+  <p id="sc-text" class="muted"></p>
+  <p class="small" id="sc-params" style="margin-top:6px"></p>
+</div>
+
+<canvas id="cv" width="960" height="230" aria-label="Top-down view of the road, the car and the child"></canvas>
+
+<div class="row" style="margin-top:14px">
+  <div class="panel">
+    <label class="field" for="speed">Speed of the car</label>
+    <div class="speed-out num"><span id="speed-val">40</span> <span style="font-size:1rem">km/h</span></div>
+    <input type="range" id="speed" min="10" max="60" step="5" value="40">
+    <p style="margin-top:12px"><button class="primary" id="run">Run it</button></p>
+  </div>
+  <div class="panel">
+    <h3>What happened</h3>
+    <div class="result" id="result" aria-live="polite"><span class="muted">Pick a speed and run it. The reaction and braking distances only show up after the run, as they would for a real driver.</span></div>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>Your runs</h3>
+  <table id="log"><thead><tr><th>Situation</th><th>Speed</th><th>Result</th></tr></thead><tbody></tbody></table>
+</div>
+
+<details open>
+  <summary>How this is calculated</summary>
+  <ul>
+    <li>Distance travelled during the reaction time: speed × reaction time. The car is not slowing at all yet.</li>
+    <li>Braking distance: speed² ÷ (2 × friction × 9.81). Friction is taken as 0.7 on dry asphalt and 0.4 on wet.</li>
+    <li>Risk of death for a pedestrian is interpolated from Tefft (2013, AAA Foundation), all ages. Children and older people are more vulnerable than this average.</li>
+    <li>Real cars, tyres and road surfaces vary. The model is deliberately simple, and generous to the driver.</li>
+  </ul>
+</details>
+
+<div class="done-banner" id="done" role="status">
+  <strong>All three found.</strong>
+  <p id="done-text" style="margin-top:4px"></p>
+</div>
+
+<script src="scorm.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

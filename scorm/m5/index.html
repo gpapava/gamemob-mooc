@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teach the crossing to listen</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  canvas { display: block; width: 100%; height: auto; border: 2.5px solid var(--ink); background: #d9d3c2; }
+  .opts { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
+  .opts button.on { background: var(--ink); color: var(--paper-3); }
+  .help { font-size: .8125rem; color: var(--ink-2); min-height: 3.4em; margin-top: 6px; }
+  .live { display: flex; gap: 24px; flex-wrap: wrap; font-size: .9rem; margin: 8px 0 0; }
+  .live b { font-family: Georgia, serif; font-size: 1.3rem; }
+  td.ok { color: var(--green); font-weight: 700; }
+  td.bad { color: var(--red); font-weight: 700; }
+  #runs td, #runs th { font-size: .8125rem; }
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div class="badge" aria-hidden="true">5</div>
+  <div>
+    <div class="kicker">Module 5 · Innovation</div>
+    <h1>Teach the crossing to listen</h1>
+    <p class="lede">A pedestrian crossing in front of a school, ten minutes of morning traffic. Fixed timers, a push button and a sensor each handle it differently. Tune the controller until it meets the brief.</p>
+  </div>
+</header>
+
+<div class="row">
+  <div style="flex: 2 1 300px; min-width: 0">
+    <canvas id="cv" width="720" height="250" aria-label="Animated crossing: cars queue and pedestrians wait at the lights"></canvas>
+    <div class="live" aria-live="off">
+      <span>Time <b class="num" id="l-t">0:00</b></span>
+      <span>Cars waiting <b class="num" id="l-c">0</b></span>
+      <span>Pedestrians waiting <b class="num" id="l-p">0</b></span>
+    </div>
+  </div>
+
+  <div style="flex: 1 1 280px">
+    <div class="panel">
+      <h3>Traffic</h3>
+      <div class="opts" id="opt-sc"></div>
+      <h3 style="margin-top:10px">Controller</h3>
+      <div class="opts" id="opt-st"></div>
+      <p class="help" id="help"></p>
+      <label class="field" for="cg" style="margin-top:8px"><span id="cg-label">Car green</span>: <b class="num" id="cg-val">25</b> s</label>
+      <input type="range" id="cg" min="8" max="45" step="1" value="25">
+      <label class="field" for="pw" style="margin-top:8px"><span id="pw-label">Pedestrian green</span>: <b class="num" id="pw-val">12</b> s</label>
+      <input type="range" id="pw" min="6" max="30" step="1" value="12">
+      <p style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap">
+        <button class="primary" id="go">Run 10 minutes</button>
+        <button id="skip" disabled>Skip to end</button>
+      </p>
+      <p class="small muted" style="margin-top:8px">Every run replays the same arrivals, so differences come from the controller alone.</p>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="panel" style="flex: 1 1 250px">
+    <h2>The brief (school peak)</h2>
+    <ul class="goals" id="goals"></ul>
+    <p class="small muted" id="brief-note" style="margin-top:8px">Run a school-peak simulation to check the brief.</p>
+  </div>
+  <div class="panel" style="flex: 2 1 300px; min-width: 0">
+    <h2>Your runs</h2>
+    <div style="overflow-x:auto">
+    <table id="runs">
+      <thead><tr><th>Traffic</th><th>Controller</th><th>Settings</th><th>Ped. wait avg / max</th><th>Car delay avg</th><th>Red-light crossings</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<details>
+  <summary>What the simulation does</summary>
+  <ul>
+    <li>One step per second for 600 seconds. Cars arrive at random (14 a minute at the school peak, 5 at midday); pedestrians at 9 a minute at the peak, 1.5 at midday. A green releases one car every 2 seconds.</li>
+    <li>Pedestrians who wait 35 seconds give up and cross on red. That is what really happens, and it is counted separately.</li>
+    <li>Fixed timer: the lights repeat the same cycle whether anyone is there or not. Push button: pedestrians get their phase once the minimum car green is over. Sensor: it also sees the cars, and turns early when the approach is empty; the walk time grows with the number of people waiting.</li>
+    <li>Cars still in the queue at the end count with the wait they have had so far, so nobody can improve the numbers by leaving people waiting.</li>
+    <li>A sensor costs money, needs maintenance and can fail. A good simulation tells you what the technology could do, not whether it is worth buying.</li>
+  </ul>
+</details>
+
+<div class="done-banner" id="done" role="status">
+  <strong>Brief met.</strong>
+  <p id="done-text" style="margin-top:4px"></p>
+</div>
+
+<script src="scorm.js"></script>
+<script src="sim.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
