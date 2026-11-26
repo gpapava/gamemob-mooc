@@ -49,7 +49,7 @@
         <h3>How this course works</h3>
         <ol>
           <li><span class="num">1</span> Work through 5 self-paced modules, each with short lessons</li>
-          <li><span class="num">2</span> Check your understanding with a quick quiz per module</li>
+          <li><span class="num">2</span> Try an interactive activity, with study material, and a quick quiz in every module</li>
           <li><span class="num">3</span> Your progress is saved automatically on this device</li>
           <li><span class="num">4</span> Finish all modules to unlock your certificate</li>
         </ol>
@@ -127,8 +127,9 @@
         <div class="module-body">
           <h3>${m.title}</h3>
           <p>${m.lessons.map(l => l.title).join(' · ')}</p>
+          ${m.activity ? `<p class="module-activity"><b>Interactive activity:</b> ${m.activity.title.replace('Activity: ', '')} · <a href="learn.html?item=${m.activity.id}" onclick="event.stopPropagation()">open it</a> · <a href="${m.activity.material}" target="_blank" rel="noopener" onclick="event.stopPropagation()">study material</a></p>` : ''}
         </div>
-        <div class="module-meta">${m.lessons.length} lessons · 1 quiz</div>
+        <div class="module-meta">${m.lessons.length} lessons · ${m.activity ? '1 activity · ' : ''}1 quiz</div>
       `;
       list.appendChild(row);
     });

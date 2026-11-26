@@ -428,3 +428,5 @@ footer a:hover { text-decoration: underline; }
 .activity-dl { color: var(--blue-mid); text-decoration: underline; text-underline-offset: 2px; }
 .activity-frame { display: block; width: 100%; height: 760px; border: 1.5px solid var(--border); border-radius: var(--radius); background: #f3efe6; }
 .activity-links { display: flex; gap: 18px; flex-wrap: wrap; }
+.module-activity { margin-top: 6px; font-size: .875rem; }
+.module-activity a { color: var(--blue-mid); text-decoration: underline; text-underline-offset: 2px; }
