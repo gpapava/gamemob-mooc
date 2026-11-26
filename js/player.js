@@ -17,8 +17,8 @@ function saveProgress(progress) {
   } catch (e) { /* storage unavailable — progress just won't persist */ }
 }
 
-// Build a flat, ordered list of items per module: lessons, interactive activity, study page, quiz.
-const TYPE_LABEL = { lesson: 'Lesson', material: 'Page', activity: 'Interactive', quiz: 'Quiz' };
+// Build a flat, ordered list of items per module: lessons, interactive activity, study page, worksheet, quiz, teacher guide.
+const TYPE_LABEL = { lesson: 'Lesson', material: 'Page', worksheet: 'Worksheet', activity: 'Interactive', quiz: 'Quiz', teacher: 'Teacher' };
 
 function buildItems() {
   const items = [];
@@ -26,7 +26,9 @@ function buildItems() {
     m.lessons.forEach(l => items.push({ type: 'lesson', moduleId: m.id, moduleTitle: m.title, ...l }));
     if (m.activity) items.push({ type: 'activity', moduleId: m.id, moduleTitle: m.title, ...m.activity });
     if (m.material) items.push({ type: 'material', moduleId: m.id, moduleTitle: m.title, ...m.material });
+    if (m.worksheet) items.push({ type: 'worksheet', moduleId: m.id, moduleTitle: m.title, ...m.worksheet });
     items.push({ type: 'quiz', moduleId: m.id, moduleTitle: m.title, ...m.quiz });
+    if (m.teacher) items.push({ type: 'teacher', moduleId: m.id, moduleTitle: m.title, ...m.teacher });
   });
   return items;
 }
@@ -189,15 +191,21 @@ function renderLesson(item) {
   });
 }
 
+const PAGE_KIND = {
+  material:  { eyebrow: 'Study page',    hint: 'Read the page, then continue' },
+  worksheet: { eyebrow: 'Worksheet',     hint: 'Print it or work from the screen, then continue' },
+  teacher:   { eyebrow: 'Teacher guide', hint: 'For teachers. Mark it complete when you have read it' }
+};
+
 function renderMaterial(item) {
   const main = document.getElementById('main');
   const next = nextItem(item.id);
   const prev = prevItem(item.id);
 
   main.innerHTML = `
-    <div class="lesson-eyebrow">${item.moduleTitle} · Study page</div>
+    <div class="lesson-eyebrow">${item.moduleTitle} · ${PAGE_KIND[item.type].eyebrow}</div>
     <div class="activity-bar">
-      <span class="activity-status${progress[item.id] ? ' done' : ''}">${progress[item.id] ? 'Completed \u2713' : 'Read the page, then continue'}</span>
+      <span class="activity-status${progress[item.id] ? ' done' : ''}">${progress[item.id] ? 'Completed \u2713' : PAGE_KIND[item.type].hint}</span>
       <a class="activity-dl" href="${item.src}" target="_blank" rel="noopener">Open in a new tab / print</a>
     </div>
     <iframe id="material-frame" class="activity-frame material-frame" title="${item.title}" src="${item.src}"></iframe>
@@ -278,6 +286,11 @@ function renderQuiz(item) {
   const next = nextItem(item.id);
   const prev = prevItem(item.id);
   const answers = new Array(item.questions.length).fill(null);
+  const shuffled = (n) => {
+    const a = Array.from({ length: n }, (_, i) => i);
+    for (let i = n - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    return a;
+  };
 
   main.innerHTML = `
     <div class="lesson-eyebrow">${item.moduleTitle}</div>
@@ -295,9 +308,11 @@ function renderQuiz(item) {
     const qEl = document.createElement('div');
     qEl.className = 'quiz-q';
     qEl.innerHTML = `<p class="q-text">${qi + 1}. ${q.q}</p>`;
-    q.options.forEach((opt, oi) => {
+    shuffled(q.options.length).forEach((oi) => {
+      const opt = q.options[oi];
       const optEl = document.createElement('div');
       optEl.className = 'quiz-opt';
+      optEl.dataset.idx = oi;
       optEl.textContent = opt;
       optEl.addEventListener('click', () => {
         if (qEl.dataset.locked) return;
@@ -323,20 +338,21 @@ function renderQuiz(item) {
       const opts = qEl.querySelectorAll('.quiz-opt');
       const correctIdx = item.questions[qi].correct;
       const chosenIdx = answers[qi];
-      opts.forEach((el, oi) => {
+      opts.forEach((el) => {
+        const oi = +el.dataset.idx;
         if (oi === correctIdx) el.classList.add('correct');
         else if (oi === chosenIdx) el.classList.add('incorrect');
       });
       const fb = qEl.querySelector('.quiz-feedback');
       fb.style.display = 'block';
       if (chosenIdx === correctIdx) {
-        fb.textContent = '✓ Correct!';
+        fb.textContent = '✓ Correct! ' + (item.questions[qi].explain || '');
         fb.classList.add('correct');
       } else if (chosenIdx === null) {
-        fb.textContent = 'No answer selected — correct answer highlighted above.';
+        fb.textContent = 'No answer selected — correct answer highlighted above. ' + (item.questions[qi].explain || '');
         fb.classList.add('incorrect');
       } else {
-        fb.textContent = 'Not quite — correct answer highlighted above.';
+        fb.textContent = 'Not quite — correct answer highlighted above. ' + (item.questions[qi].explain || '');
         fb.classList.add('incorrect');
       }
     });
@@ -392,7 +408,7 @@ function render() {
   activeActivityId = null;
   if (item.type === 'quiz') renderQuiz(item);
   else if (item.type === 'activity') renderActivity(item);
-  else if (item.type === 'material') renderMaterial(item);
+  else if (item.type === 'material' || item.type === 'worksheet' || item.type === 'teacher') renderMaterial(item);
   else renderLesson(item);
 }
 

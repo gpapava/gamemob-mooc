@@ -443,3 +443,5 @@ footer a:hover { text-decoration: underline; }
 .sb-type-activity { color: var(--blue-mid); border-color: #bcd0f0; }
 .sb-type-quiz { color: #b45309; border-color: #f3d9a8; }
 .sb-type-material { color: var(--green-dark); border-color: #b5e6d2; }
+.sb-type-worksheet { color: #7c3aed; border-color: #ddd0fa; }
+.sb-type-teacher { color: #be185d; border-color: #f6cfe0; }

@@ -127,9 +127,9 @@
         <div class="module-body">
           <h3>${m.title}</h3>
           <p>${m.lessons.map(l => l.title).join(' · ')}</p>
-          ${m.activity ? `<p class="module-activity"><b>Also in this module:</b> <a href="learn.html?item=${m.activity.id}" onclick="event.stopPropagation()">interactive: ${m.activity.title}</a> · <a href="learn.html?item=${m.material.id}" onclick="event.stopPropagation()">study page</a></p>` : ''}
+          ${m.activity ? `<p class="module-activity"><b>Also in this module:</b> <a href="learn.html?item=${m.activity.id}" onclick="event.stopPropagation()">interactive</a> · <a href="learn.html?item=${m.material.id}" onclick="event.stopPropagation()">study page</a> · <a href="learn.html?item=${m.worksheet.id}" onclick="event.stopPropagation()">worksheet</a> · <a href="learn.html?item=${m.teacher.id}" onclick="event.stopPropagation()">teacher guide</a></p>` : ''}
         </div>
-        <div class="module-meta">${m.lessons.length} lessons · 1 interactive · 1 page · 1 quiz</div>
+        <div class="module-meta">${m.lessons.length} lessons · interactive · page · worksheet · quiz</div>
       `;
       list.appendChild(row);
     });
