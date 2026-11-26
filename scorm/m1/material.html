@@ -15,7 +15,7 @@
     <p class="lede">Moving people is mostly a question of space. This page explains the ideas behind the street you rebuilt in the activity.</p>
   </div>
 </header>
-<p class="topnote">Opened from the activity? Close this tab to go back to it. You can also print this page.</p>
+<p class="topnote" id="topnote">Opened in its own tab? Close this tab to go back to it. You can also print this page.</p>
 <main class="prose">
 
 <h2>Access, not movement</h2>
@@ -81,5 +81,6 @@
 </ol>
 <p class="small muted" style="margin-top:14px">Figures in this page are rounded and meant for teaching. Check the sources before quoting them in official project material.</p>
 </main>
+<script>if (window.parent !== window) { document.getElementById('topnote').hidden = true; }</script>
 </body>
 </html>

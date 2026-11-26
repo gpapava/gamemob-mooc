@@ -17,12 +17,15 @@ function saveProgress(progress) {
   } catch (e) { /* storage unavailable — progress just won't persist */ }
 }
 
-// Build a flat, ordered list of items: lesson, lesson, ..., activity, quiz, per module.
+// Build a flat, ordered list of items per module: lessons, interactive activity, study page, quiz.
+const TYPE_LABEL = { lesson: 'Lesson', material: 'Page', activity: 'Interactive', quiz: 'Quiz' };
+
 function buildItems() {
   const items = [];
   COURSE.modules.forEach(m => {
     m.lessons.forEach(l => items.push({ type: 'lesson', moduleId: m.id, moduleTitle: m.title, ...l }));
     if (m.activity) items.push({ type: 'activity', moduleId: m.id, moduleTitle: m.title, ...m.activity });
+    if (m.material) items.push({ type: 'material', moduleId: m.id, moduleTitle: m.title, ...m.material });
     items.push({ type: 'quiz', moduleId: m.id, moduleTitle: m.title, ...m.quiz });
   });
   return items;
@@ -128,7 +131,7 @@ function renderSidebar(activeId) {
         + (progress[item.id] ? ' done' : '')
         + (item.type === 'quiz' ? ' quiz' : '');
       const marker = item.type === 'quiz' ? '📝 ' : '';
-      row.innerHTML = `<span class="dot">${progress[item.id] ? '✓' : ''}</span><span>${marker}${item.title}</span>`;
+      row.innerHTML = `<span class="dot">${progress[item.id] ? '✓' : ''}</span><span class="sb-title">${marker}${item.title}</span><span class="sb-type sb-type-${item.type}">${TYPE_LABEL[item.type]}</span>`;
       row.addEventListener('click', (e) => {
         e.preventDefault();
         navigateTo(item.id);
@@ -186,6 +189,48 @@ function renderLesson(item) {
   });
 }
 
+function renderMaterial(item) {
+  const main = document.getElementById('main');
+  const next = nextItem(item.id);
+  const prev = prevItem(item.id);
+
+  main.innerHTML = `
+    <div class="lesson-eyebrow">${item.moduleTitle} · Study page</div>
+    <div class="activity-bar">
+      <span class="activity-status${progress[item.id] ? ' done' : ''}">${progress[item.id] ? 'Completed \u2713' : 'Read the page, then continue'}</span>
+      <a class="activity-dl" href="${item.src}" target="_blank" rel="noopener">Open in a new tab / print</a>
+    </div>
+    <iframe id="material-frame" class="activity-frame material-frame" title="${item.title}" src="${item.src}"></iframe>
+    <div class="lesson-nav">
+      ${prev ? `<button class="btn btn-outline" id="btn-prev">← Back</button>` : `<span></span>`}
+      <span class="spacer"></span>
+      <button class="btn btn-primary" id="btn-complete">${next ? 'Mark Complete & Continue →' : 'Mark Complete'}</button>
+    </div>
+  `;
+
+  const frame = document.getElementById('material-frame');
+  function fit() {
+    try {
+      const doc = frame.contentDocument;
+      if (doc && doc.documentElement) frame.style.height = Math.max(520, doc.documentElement.scrollHeight + 4) + 'px';
+    } catch (e) { /* keep default height */ }
+  }
+  frame.addEventListener('load', () => {
+    fit();
+    try {
+      const doc = frame.contentDocument;
+      if (window.ResizeObserver && doc && doc.body) new ResizeObserver(fit).observe(doc.body);
+    } catch (e) { /* ignore */ }
+  });
+
+  if (prev) document.getElementById('btn-prev').addEventListener('click', () => navigateTo(prev.id));
+  document.getElementById('btn-complete').addEventListener('click', () => {
+    markComplete(item.id);
+    if (next) navigateTo(next.id);
+    else render();
+  });
+}
+
 function renderActivity(item) {
   const main = document.getElementById('main');
   const next = nextItem(item.id);
@@ -199,10 +244,7 @@ function renderActivity(item) {
     <p class="activity-intro">${item.intro}</p>
     <div class="activity-bar">
       <span id="activity-status" class="activity-status${progress[item.id] ? ' done' : ''}">${progress[item.id] ? 'Completed \u2713' : 'Not completed yet'}</span>
-      <span class="activity-links">
-        <a class="activity-dl" href="${item.material}" target="_blank" rel="noopener">Study material (new tab)</a>
-        <a class="activity-dl" href="${item.zip}" download>Download SCORM 1.2 package (.zip)</a>
-      </span>
+      <a class="activity-dl" href="${item.zip}" download>Download SCORM 1.2 package (.zip)</a>
     </div>
     <iframe id="activity-frame" class="activity-frame" title="${item.title}" src="${item.src}" loading="lazy"></iframe>
     <div class="lesson-nav">
@@ -350,6 +392,7 @@ function render() {
   activeActivityId = null;
   if (item.type === 'quiz') renderQuiz(item);
   else if (item.type === 'activity') renderActivity(item);
+  else if (item.type === 'material') renderMaterial(item);
   else renderLesson(item);
 }
 

@@ -15,7 +15,7 @@
     <p class="lede">The activity asked how fast a car can go and still stop for a child. This page shows where the answer comes from.</p>
   </div>
 </header>
-<p class="topnote">Opened from the activity? Close this tab to go back to it. You can also print this page.</p>
+<p class="topnote" id="topnote">Opened in its own tab? Close this tab to go back to it. You can also print this page.</p>
 <main class="prose">
 
 <div class="facts">
@@ -98,5 +98,6 @@
 </ol>
 <p class="small muted" style="margin-top:14px">Figures in this page are rounded and meant for teaching. Check the sources before quoting them in official project material.</p>
 </main>
+<script>if (window.parent !== window) { document.getElementById('topnote').hidden = true; }</script>
 </body>
 </html>

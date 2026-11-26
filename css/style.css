@@ -430,3 +430,10 @@ footer a:hover { text-decoration: underline; }
 .activity-links { display: flex; gap: 18px; flex-wrap: wrap; }
 .module-activity { margin-top: 6px; font-size: .875rem; }
 .module-activity a { color: var(--blue-mid); text-decoration: underline; text-underline-offset: 2px; }
+
+/* sidebar: item type tag */
+.sb-lesson .sb-title { flex: 1; min-width: 0; }
+.sb-type { flex-shrink: 0; font-size: .625rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; background: var(--white); }
+.sb-type-activity { color: var(--blue-mid); border-color: #bcd0f0; }
+.sb-type-quiz { color: #b45309; border-color: #f3d9a8; }
+.sb-type-material { color: var(--green-dark); border-color: #b5e6d2; }
