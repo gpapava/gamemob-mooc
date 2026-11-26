@@ -199,7 +199,10 @@ function renderActivity(item) {
     <p class="activity-intro">${item.intro}</p>
     <div class="activity-bar">
       <span id="activity-status" class="activity-status${progress[item.id] ? ' done' : ''}">${progress[item.id] ? 'Completed \u2713' : 'Not completed yet'}</span>
-      <a class="activity-dl" href="${item.zip}" download>Download as SCORM 1.2 package (.zip)</a>
+      <span class="activity-links">
+        <a class="activity-dl" href="${item.material}" target="_blank" rel="noopener">Study material (new tab)</a>
+        <a class="activity-dl" href="${item.zip}" download>Download SCORM 1.2 package (.zip)</a>
+      </span>
     </div>
     <iframe id="activity-frame" class="activity-frame" title="${item.title}" src="${item.src}" loading="lazy"></iframe>
     <div class="lesson-nav">

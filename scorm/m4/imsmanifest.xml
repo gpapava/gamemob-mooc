@@ -20,6 +20,7 @@
     <resource identifier="res-m4" type="webcontent" adlcp:scormtype="sco" href="index.html">
       <file href="app.js"/>
       <file href="index.html"/>
+      <file href="material.html"/>
       <file href="scorm.js"/>
       <file href="style.css"/>
     </resource>

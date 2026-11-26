@@ -32,6 +32,7 @@ const COURSE = {
         id: "m1a",
         title: "Activity: Rebuild the street",
         src: "scorm/m1/index.html",
+        material: "scorm/m1/material.html",
         zip: "scorm/downloads/gamemob-m1-rebuild-the-street.zip",
         intro: "Redesign a 20 m street for a school, and see how many people each choice can move."
       },
@@ -80,6 +81,7 @@ const COURSE = {
         id: "m2a",
         title: "Activity: Will it stop in time?",
         src: "scorm/m2/index.html",
+        material: "scorm/m2/material.html",
         zip: "scorm/downloads/gamemob-m2-stopping-distance.zip",
         intro: "Find the highest speed at which a car still stops short of a child in three situations."
       },
@@ -118,6 +120,7 @@ const COURSE = {
         id: "m3a",
         title: "Activity: The school run, in grams",
         src: "scorm/m3/index.html",
+        material: "scorm/m3/material.html",
         zip: "scorm/downloads/gamemob-m3-school-run-co2.zip",
         intro: "Change how 24 pupils get to school and watch the class's yearly emissions respond."
       },
@@ -156,6 +159,7 @@ const COURSE = {
         id: "m4a",
         title: "Activity: Door to door",
         src: "scorm/m4/index.html",
+        material: "scorm/m4/material.html",
         zip: "scorm/downloads/gamemob-m4-door-to-door.zip",
         intro: "Guess when the car overtakes the bike, then test your guess against a door-to-door model."
       },
@@ -194,6 +198,7 @@ const COURSE = {
         id: "m5a",
         title: "Activity: Teach the crossing to listen",
         src: "scorm/m5/index.html",
+        material: "scorm/m5/material.html",
         zip: "scorm/downloads/gamemob-m5-smart-crossing.zip",
         intro: "Tune a fixed timer, a push button and a sensor at a school crossing and compare the results."
       },

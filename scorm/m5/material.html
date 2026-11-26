@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study material: Technology as a tool, not the goal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="head">
+  <div class="badge" aria-hidden="true">5</div>
+  <div>
+    <div class="kicker">Module 5 · Innovation · Study material</div>
+    <h1>Technology as a tool, not the goal</h1>
+    <p class="lede">The crossing activity compared three ways of controlling the lights. This page explains how real systems work and how to decide whether a technology is worth using.</p>
+  </div>
+</header>
+<p class="topnote">Opened from the activity? Close this tab to go back to it. You can also print this page.</p>
+<main class="prose">
+
+<h2>What &ldquo;smart mobility&rdquo; means</h2>
+<p>Smart mobility uses data and digital technology to make transport work better, usually without building new infrastructure. Typical examples are real-time arrival information at stops, signals that react to traffic, shared bikes and scooters you unlock from a phone, one app to plan and pay for a whole trip (sometimes called Mobility as a Service), and buses that run on demand where regular ones would be empty.</p>
+<p>The test of a smart system is not how clever it is. It is whether the people it serves have a better journey.</p>
+
+<h2>Three ways to run a crossing</h2>
+<table>
+<thead><tr><th>Controller</th><th>What it knows</th><th>Good at</th><th>Weak at</th></tr></thead>
+<tbody>
+<tr><td>Fixed timer</td><td>The clock only</td><td>Simple, cheap, predictable, can be coordinated with neighbouring junctions</td><td>Wastes green time when nobody is waiting; the same plan for a quiet noon and a school peak</td></tr>
+<tr><td>Push button</td><td>That a pedestrian is waiting</td><td>Cars keep priority when no one crosses</td><td>Cannot see how many people are waiting or whether the road is empty; people press and cross anyway</td></tr>
+<tr><td>Sensor</td><td>Waiting pedestrians and approaching cars</td><td>Can turn early on an empty road, and lengthen the walk phase for a crowd</td><td>Costs more, needs maintenance, can fail or miss a small child</td></tr>
+</tbody>
+</table>
+<p>Real traffic-signal systems that adapt to detected traffic have been in use for decades. Two well-known examples are SCOOT (developed in the UK) and SCATS (developed in Sydney). The principle in the activity is the same, at a much simpler scale.</p>
+
+<h2>What the simulation found</h2>
+<p>At the school peak, with similar settings, the activity gave these results for a ten-minute run.</p>
+<table>
+<thead><tr><th>Controller (settings)</th><th class="r">Average pedestrian wait</th><th class="r">Average car delay</th></tr></thead>
+<tbody>
+<tr><td>Fixed timer (25 s car green, 12 s walk)</td><td class="r">9.8 s</td><td class="r">7.2 s</td></tr>
+<tr><td>Push button (25 s minimum, 12 s walk)</td><td class="r">9.3 s</td><td class="r">6.0 s</td></tr>
+<tr><td>Sensor (20 s minimum, 12 s maximum walk)</td><td class="r">4.8 s</td><td class="r">7.3 s</td></tr>
+</tbody>
+</table>
+<p>The sensor roughly halves the pedestrian wait without making cars wait noticeably longer. Two cautions. This is a model with made-up arrival rates, not a measurement. And pedestrians who wait too long start to cross on red, so a short wait is a safety feature, not only a convenience.</p>
+
+<h2>Questions to ask before buying any technology</h2>
+<ul>
+<li><b>Privacy.</b> Cameras that count people can be built so they do not identify anyone. In the EU the GDPR applies whenever data about identifiable people is collected, so ask what is recorded and for how long.</li>
+<li><b>Failure.</b> What happens when the sensor breaks? A good system falls back to a safe fixed plan.</li>
+<li><b>Access.</b> If information is only in an app, who is left out? Children without phones, older people, visitors.</li>
+<li><b>Accessibility.</b> Blind and low-vision pedestrians need audible or tactile signals, and some people need more time to cross than the standard phase allows.</li>
+<li><b>Cost over time.</b> The purchase is usually the smaller part; software updates, repairs and staff time are the rest.</li>
+<li><b>A simpler fix.</b> Would a raised crossing or a narrower street solve the problem without electronics? Often yes.</li>
+</ul>
+
+<h2>A method for your own idea</h2>
+<ol>
+<li>Name one concrete problem and the people it affects. &ldquo;Parents queue to drop off children at 8:15&rdquo; is better than &ldquo;traffic is bad&rdquo;.</li>
+<li>Decide what you would need to know to fix it, and whether anyone already collects that information.</li>
+<li>Try the cheapest intervention first, even if it is a paper sign and a volunteer.</li>
+<li>Decide in advance what number would tell you it worked, and measure it before and after.</li>
+</ol>
+<p>This is the same thinking behind the GAMEMOB serious game: players meet a mobility problem, try changes and see the consequences before anything is built.</p>
+
+<section class="reflect">
+<h2>Before you move on</h2>
+<ol>
+<li>Which controller met the brief for you, and with which settings? What did you give up to get there?</li>
+<li>Choose one problem near your school. What is the simplest thing that could improve it, with or without technology?</li>
+<li>Who might be harmed or excluded by a sensor-based solution, and how would you find out?</li>
+</ol>
+</section>
+
+<h2>Key terms</h2>
+<dl class="gloss">
+<dt>Actuated signal</dt><dd>A traffic signal that changes its timing in response to detected vehicles or pedestrians.</dd>
+<dt>Adaptive control</dt><dd>A system that continuously adjusts signal timings across several junctions based on live traffic data.</dd>
+<dt>Mobility as a Service (MaaS)</dt><dd>One digital service for planning, booking and paying for trips on different modes.</dd>
+<dt>Demand-responsive transport</dt><dd>Public transport that runs when and where passengers request it, instead of on a fixed timetable.</dd>
+<dt>GDPR</dt><dd>The EU General Data Protection Regulation, which governs personal data.</dd>
+</dl>
+
+<h2>Sources and further reading</h2>
+<ol class="sources">
+<li>P. B. Hunt, D. I. Robertson, R. D. Bretherton and M. C. Royle, &ldquo;The SCOOT on-line traffic signal optimisation technique&rdquo;, <i>Traffic Engineering and Control</i> 23 (1982).</li>
+<li>P. R. Lowrie, &ldquo;The Sydney Coordinated Adaptive Traffic System: principles, methodology, algorithms&rdquo;, IEE Conference (1982). Origin of SCATS.</li>
+<li>European Commission, <i>Sustainable and Smart Mobility Strategy</i>, COM(2020) 789.</li>
+<li>Regulation (EU) 2016/679 (General Data Protection Regulation).</li>
+</ol>
+<p class="small muted" style="margin-top:14px">Figures in this page are rounded and meant for teaching. Check the sources before quoting them in official project material.</p>
+</main>
+</body>
+</html>

@@ -106,3 +106,34 @@ th { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color:
 @media (prefers-reduced-motion: reduce) {
   button { transition: none; }
 }
+
+/* ---- study material pages ---- */
+.prose { max-width: 72ch; }
+.prose h2 { margin-top: 26px; padding-top: 14px; border-top: 1px solid #c9c2b0; font-size: 1.2rem; }
+.prose h2:first-of-type { border-top: 0; margin-top: 8px; padding-top: 0; }
+.prose p { margin-top: 10px; }
+.prose ul, .prose ol { margin: 10px 0 0 22px; }
+.prose li { margin-top: 4px; }
+.prose code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .9em; background: var(--paper-2); padding: 0 4px; }
+.facts { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0 4px; max-width: 72ch; }
+.facts > div { flex: 1 1 150px; border: var(--line); background: var(--paper-3); padding: 10px 12px; }
+.facts b { display: block; font-family: Georgia, serif; font-size: 1.6rem; line-height: 1.1; }
+.facts span { font-size: .8125rem; color: var(--ink-2); }
+figure.fig { margin: 16px 0 4px; max-width: 72ch; background: var(--paper-3); border: var(--line); padding: 12px 14px; }
+figure.fig figcaption { font-size: .8125rem; color: var(--ink-2); margin-top: 8px; }
+figure.fig svg { width: 100%; height: auto; display: block; }
+figure.fig svg text { font-family: "Helvetica Neue", Arial, sans-serif; fill: var(--ink); }
+.prose table { margin-top: 12px; background: var(--paper-3); border: var(--line); }
+.prose table td, .prose table th { padding: 6px 10px; }
+.prose td.r, .prose th.r { text-align: right; font-variant-numeric: tabular-nums; }
+dl.gloss { margin-top: 10px; }
+dl.gloss dt { font-weight: 700; margin-top: 8px; }
+dl.gloss dd { margin-left: 0; color: var(--ink-2); }
+.reflect { border: 2px solid var(--ink); background: var(--paper-3); padding: 4px 16px 12px; margin-top: 22px; max-width: 72ch; }
+.reflect h2 { border: 0 !important; margin-top: 10px !important; padding-top: 0 !important; }
+ol.sources { font-size: .875rem; color: var(--ink-2); }
+.topnote { font-size: .8125rem; color: var(--ink-2); margin: -8px 0 18px; }
+.pyramid { max-width: 72ch; margin: 14px 0 4px; }
+.pyramid div { border: var(--line); padding: 6px 10px; margin: 0 auto 4px; font-size: .875rem; font-weight: 600; background: var(--paper-3); }
+.pyramid small { font-weight: 400; color: var(--ink-2); }
+@media print { body { background: #fff; } button { display: none; } }
