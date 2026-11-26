@@ -113,10 +113,10 @@ img { max-width: 100%; display: block; }
 }
 .nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .eit-logo-img {
-  height: 26px; width: auto;
+  height: 42px; width: auto;
   background: var(--white);
-  padding: 3px 7px;
-  border-radius: 6px;
+  padding: 4px 10px;
+  border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0,0,0,.15);
 }
 .back-link {
@@ -129,9 +129,15 @@ img { max-width: 100%; display: block; }
 }
 .back-link:hover { color: var(--blue-deep); background: var(--bg); }
 
+@media (max-width: 900px) {
+  .eit-logo-img { height: 34px; padding: 3px 8px; }
+}
 @media (max-width: 640px) {
-  .eit-logo-img { display: none; }
+  .eit-logo-img { height: 28px; padding: 3px 6px; }
   .nav-logo small { display: none; }
+}
+@media (max-width: 520px) {
+  .eit-logo-img { display: none; }
 }
 
 /* ── Hero ── */
