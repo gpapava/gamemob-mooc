@@ -73,17 +73,17 @@
   /* ---------- drawing ---------- */
   function drawScene(sc, carFront, showZones, out, childOn) {
     ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = '#d9d3c2';
+    ctx.fillStyle = '#dfe2e5';
     ctx.fillRect(0, 0, W, H);
     // road
     ctx.fillStyle = '#3b4140';
     ctx.fillRect(0, ROAD_Y, W, ROAD_H);
-    ctx.strokeStyle = '#f3efe6'; ctx.lineWidth = 3; ctx.setLineDash([22, 18]);
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3; ctx.setLineDash([22, 18]);
     ctx.beginPath(); ctx.moveTo(0, ROAD_Y + ROAD_H / 2); ctx.lineTo(W, ROAD_Y + ROAD_H / 2); ctx.stroke();
     ctx.setLineDash([]);
     // crossing
     var cx = X0 + sc.D * PXM;
-    ctx.fillStyle = '#f3efe6';
+    ctx.fillStyle = '#ffffff';
     for (var y = ROAD_Y + 6; y < ROAD_Y + ROAD_H - 8; y += 16) ctx.fillRect(cx - 14, y, 28, 9);
 
     // zones (after run)
@@ -93,7 +93,7 @@
       var bx = X0 + out.stopDist * PXM;
       ctx.fillStyle = '#efb320'; ctx.fillRect(X0, zy, rx - X0, 12);
       ctx.fillStyle = '#c23b2e'; ctx.fillRect(rx, zy, Math.min(bx, W - 4) - rx, 12);
-      ctx.fillStyle = '#1c2321'; ctx.font = '12px "Helvetica Neue", Arial, sans-serif';
+      ctx.fillStyle = '#1c2321'; ctx.font = '12px system-ui, sans-serif';
       ctx.fillText('reaction ' + out.react.toFixed(1) + ' m', X0, zy + 28);
       ctx.fillText('braking ' + out.brake.toFixed(1) + ' m', Math.max(rx, X0 + 120), zy + 28);
       ctx.strokeStyle = '#1c2321'; ctx.lineWidth = 2;
@@ -101,7 +101,7 @@
     }
 
     // scale ticks (every 5 m)
-    ctx.fillStyle = '#4b544f'; ctx.font = '11px "Helvetica Neue", Arial, sans-serif';
+    ctx.fillStyle = '#4b544f'; ctx.font = '11px system-ui, sans-serif';
     for (var m = 0; m <= 35; m += 5) {
       var tx = X0 + m * PXM;
       ctx.fillRect(tx, ROAD_Y - 10, 1.5, 8);

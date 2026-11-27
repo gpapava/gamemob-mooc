@@ -1,6 +1,66 @@
 /* Placeholder sample content — to be replaced with the real GAMEMOB MOOC material. */
 const COURSE = {
   title: "Play, Learn, Move Sustainably",
+  overview: {
+    id: "intro",
+    title: "About this course",
+    body: `
+      <p>How we move around our towns affects our safety, our health, the air we breathe and the climate. In this free, self-paced course you will look at the streets and journeys you know, test ideas in interactive activities and propose ways to make them better.</p>
+
+      <h2>Who it is for</h2>
+      <p>Students aged 12–19, studying on their own or in class. No previous knowledge is needed. Teachers will find a guide in every module.</p>
+
+      <h2>What you will learn</h2>
+      <p>By the end of the course you will be able to:</p>
+      <h3>1. Sustainable Mobility Basics</h3>
+      <ul>
+        <li>Name the three pillars of sustainable mobility and give an example of each</li>
+        <li>Compare how many people a car lane, a bus lane and a bike lane can carry</li>
+        <li>Propose a street design and explain who gains and who gives something up</li>
+      </ul>
+      <h3>2. Traffic Safety</h3>
+      <ul>
+        <li>Explain the difference between reaction distance and braking distance</li>
+        <li>Estimate how far a car needs to stop, and why speed matters so much</li>
+        <li>Name measures that reduce risk near a school</li>
+      </ul>
+      <h3>3. Environmental Impacts</h3>
+      <ul>
+        <li>Calculate the CO₂ emissions of a journey</li>
+        <li>Identify which trips cause most of a class's emissions</li>
+        <li>Describe school-level measures that cut emissions and traffic</li>
+      </ul>
+      <h3>4. Active Mobility</h3>
+      <ul>
+        <li>Define active mobility and name its benefits</li>
+        <li>Compare travel modes door to door</li>
+        <li>Rate a real cycling route against five requirements</li>
+      </ul>
+      <h3>5. Innovation</h3>
+      <ul>
+        <li>Compare ways of controlling a pedestrian crossing, and their trade-offs</li>
+        <li>Ask critical questions about smart systems, such as privacy, failure and access</li>
+        <li>Plan a small pilot that tackles a local mobility problem</li>
+      </ul>
+
+      <h2>How each module works</h2>
+      <ul>
+        <li><strong>Lessons:</strong> short introductions to the topic</li>
+        <li><strong>Interactive:</strong> a simulation where you try out decisions and see what happens</li>
+        <li><strong>Study page:</strong> a short reading with key figures and a glossary</li>
+        <li><strong>Worksheet:</strong> a printable activity for your school or neighbourhood</li>
+        <li><strong>Quiz:</strong> six questions with an explanation after each answer</li>
+        <li><strong>Teacher guide:</strong> lesson plan and answers, for teachers</li>
+      </ul>
+
+      <h2>Good to know</h2>
+      <ul>
+        <li>The course has five modules and takes about 10–12 hours</li>
+        <li>You can stop at any time. Your progress is saved on this device</li>
+        <li>No sign-up is needed</li>
+      </ul>
+    `
+  },
   modules: [
     {
       id: "m1",
@@ -11,7 +71,7 @@ const COURSE = {
           title: "What Is Sustainable Mobility?",
           body: `
             <p>Sustainable mobility means moving people and goods in ways that meet today's needs without compromising the environment, safety, or quality of life for future generations.</p>
-            <p>In this lesson you'll explore the three pillars of sustainable transport — environmental, social, and economic — and see why cities across Europe are rethinking how streets are designed.</p>
+            <p>In this lesson you'll explore the three pillars of sustainable transport (environmental, social and economic) and see why cities across Europe are rethinking how streets are designed.</p>
             <ul>
               <li>Why "more roads" doesn't solve congestion</li>
               <li>The transport hierarchy: walking, cycling, public transport, shared mobility, private cars</li>
@@ -24,7 +84,7 @@ const COURSE = {
           title: "Why Cities Need to Change How We Move",
           body: `
             <p>Urban areas are growing fast, and traffic, noise, and air pollution are growing with them. This lesson looks at real examples from RIS regions in Greece and Serbia.</p>
-            <p>You'll learn how small daily choices — like walking to school instead of being driven — add up to measurable change at the city level.</p>
+            <p>You'll learn how small daily choices, like walking to school instead of being driven, add up to measurable change at the city level.</p>
           `
         }
       ],
@@ -105,7 +165,7 @@ const COURSE = {
             <ul>
               <li>Speed and stopping distance</li>
               <li>Visibility and blind spots</li>
-              <li>Distraction — for drivers and pedestrians alike</li>
+              <li>Distraction, for drivers and pedestrians alike</li>
             </ul>
           `
         },
@@ -274,7 +334,7 @@ const COURSE = {
           id: "m4l1",
           title: "Walking & Cycling as Everyday Transport",
           body: `
-            <p>Active mobility isn't just exercise — it's a practical way to get around that also improves concentration, mood, and independence for students.</p>
+            <p>Active mobility isn't just exercise. It's a practical way to get around that also improves concentration, mood, and independence for students.</p>
           `
         },
         {
@@ -365,7 +425,7 @@ const COURSE = {
           id: "m5l2",
           title: "Designing the Mobility of Tomorrow",
           body: `
-            <p>You'll wrap up the course by imagining and sketching your own idea for a more sustainable, safer way to move around your city — the same kind of thinking behind the GAMEMOB serious game.</p>
+            <p>You'll wrap up the course by imagining and sketching your own idea for a more sustainable, safer way to move around your city, the same kind of thinking behind the GAMEMOB serious game.</p>
           `
         }
       ],

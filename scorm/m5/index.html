@@ -6,12 +6,12 @@
 <title>Teach the crossing to listen</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  canvas { display: block; width: 100%; height: auto; border: 2.5px solid var(--ink); background: #d9d3c2; }
+  canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); background: #dfe2e5; }
   .opts { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
-  .opts button.on { background: var(--ink); color: var(--paper-3); }
+  .opts button.on { background: var(--blue); color: #fff; }
   .help { font-size: .8125rem; color: var(--ink-2); min-height: 3.4em; margin-top: 6px; }
   .live { display: flex; gap: 24px; flex-wrap: wrap; font-size: .9rem; margin: 8px 0 0; }
-  .live b { font-family: Georgia, serif; font-size: 1.3rem; }
+  .live b { font-size: 1.3rem; }
   td.ok { color: var(--green); font-weight: 700; }
   td.bad { color: var(--red); font-weight: 700; }
   #runs td, #runs th { font-size: .8125rem; }
@@ -20,9 +20,8 @@
 <body>
 
 <header class="head">
-  <div class="badge" aria-hidden="true">5</div>
   <div>
-    <div class="kicker">Module 5 · Innovation</div>
+    <div class="kicker">Module 5: Innovation</div>
     <h1>Teach the crossing to listen</h1>
     <p class="lede">A pedestrian crossing in front of a school, ten minutes of morning traffic. Fixed timers, a push button and a sensor each handle it differently. Tune the controller until it meets the brief.</p>
     <p class="small" style="margin-top:8px"><a href="material.html" target="_blank" rel="noopener">Read the study material for this module (opens in a new tab)</a></p>

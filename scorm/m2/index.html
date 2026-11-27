@@ -6,10 +6,10 @@
 <title>Stopping distance</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  canvas { display: block; width: 100%; height: auto; border: 2.5px solid var(--ink); background: var(--paper-2); }
+  canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); background: var(--paper-2); }
   .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
   .tabs button.done::after { content: " \2713"; }
-  .speed-out { font-family: Georgia, serif; font-size: 2.2rem; font-weight: 700; line-height: 1; }
+  .speed-out { font-size: 2.2rem; font-weight: 700; line-height: 1; }
   .result { min-height: 3.2em; }
   .result b { font-weight: 800; }
   #log td:first-child { white-space: nowrap; }
@@ -21,9 +21,8 @@
 <body>
 
 <header class="head">
-  <div class="badge" aria-hidden="true">2</div>
   <div>
-    <div class="kicker">Module 2 · Traffic Safety</div>
+    <div class="kicker">Module 2: Traffic Safety</div>
     <h1>Will it stop in time?</h1>
     <p class="lede">A child steps out onto the road. The driver is travelling at the speed you choose. You are looking for the highest speed at which the car still stops short, in three situations that all happen outside real schools.</p>
     <p class="small" style="margin-top:8px"><a href="material.html" target="_blank" rel="noopener">Read the study material for this module (opens in a new tab)</a></p>

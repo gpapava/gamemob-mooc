@@ -18,10 +18,10 @@ function saveProgress(progress) {
 }
 
 // Build a flat, ordered list of items per module: lessons, interactive activity, study page, worksheet, quiz, teacher guide.
-const TYPE_LABEL = { lesson: 'Lesson', material: 'Page', worksheet: 'Worksheet', activity: 'Interactive', quiz: 'Quiz', teacher: 'Teacher' };
+const TYPE_LABEL = { lesson: 'Lesson', material: 'Study page', worksheet: 'Worksheet', activity: 'Interactive', quiz: 'Quiz', teacher: 'Teacher guide' };
 
 function buildItems() {
-  const items = [];
+  const items = [{ type: 'intro', ...COURSE.overview }];
   COURSE.modules.forEach(m => {
     m.lessons.forEach(l => items.push({ type: 'lesson', moduleId: m.id, moduleTitle: m.title, ...l }));
     if (m.activity) items.push({ type: 'activity', moduleId: m.id, moduleTitle: m.title, ...m.activity });
@@ -34,6 +34,8 @@ function buildItems() {
 }
 
 const ITEMS = buildItems();
+// The overview is an introduction, so it does not count towards progress.
+const COURSE_ITEMS = ITEMS.filter(i => i.type !== 'intro');
 let progress = loadProgress();
 
 /* ---- Minimal SCORM 1.2 runtime for the interactive activities ----
@@ -90,13 +92,16 @@ function currentItemId() {
     if (first) return first.id;
   }
 
-  const firstIncomplete = ITEMS.find(i => !progress[i.id]);
+  // New learners start at the course overview; returning learners resume.
+  if (!COURSE_ITEMS.some(i => progress[i.id])) return COURSE.overview.id;
+
+  const firstIncomplete = COURSE_ITEMS.find(i => !progress[i.id]);
   return firstIncomplete ? firstIncomplete.id : ITEMS[ITEMS.length - 1].id;
 }
 
 function pctComplete() {
-  const done = ITEMS.filter(i => progress[i.id]).length;
-  return Math.round((done / ITEMS.length) * 100);
+  const done = COURSE_ITEMS.filter(i => progress[i.id]).length;
+  return Math.round((done / COURSE_ITEMS.length) * 100);
 }
 
 function renderProgressBar() {
@@ -108,6 +113,18 @@ function renderProgressBar() {
 function renderSidebar(activeId) {
   const wrap = document.getElementById('sidebar-modules');
   wrap.innerHTML = '';
+
+  const intro = COURSE.overview;
+  const introRow = document.createElement('a');
+  introRow.href = `learn.html?item=${intro.id}`;
+  introRow.className = 'sb-intro' + (activeId === intro.id ? ' active' : '');
+  introRow.textContent = intro.title;
+  introRow.addEventListener('click', (e) => {
+    e.preventDefault();
+    navigateTo(intro.id);
+  });
+  wrap.appendChild(introRow);
+
   COURSE.modules.forEach(m => {
     const moduleItems = ITEMS.filter(i => i.moduleId === m.id);
     const isOpenModule = moduleItems.some(i => i.id === activeId);
@@ -117,7 +134,7 @@ function renderSidebar(activeId) {
 
     const head = document.createElement('div');
     head.className = 'sb-module-head';
-    head.innerHTML = `<span>${m.title}</span><span class="chev">▸</span>`;
+    head.innerHTML = `<span>${m.title}</span><span class="chev" aria-hidden="true"></span>`;
     head.addEventListener('click', () => {
       modEl.classList.toggle('open');
     });
@@ -132,8 +149,7 @@ function renderSidebar(activeId) {
         + (item.id === activeId ? ' active' : '')
         + (progress[item.id] ? ' done' : '')
         + (item.type === 'quiz' ? ' quiz' : '');
-      const marker = item.type === 'quiz' ? '📝 ' : '';
-      row.innerHTML = `<span class="dot">${progress[item.id] ? '✓' : ''}</span><span class="sb-title">${marker}${item.title}</span><span class="sb-type sb-type-${item.type}">${TYPE_LABEL[item.type]}</span>`;
+      row.innerHTML = `<span class="dot">${progress[item.id] ? '✓' : ''}</span><span class="sb-title">${item.title}<span class="sb-type">${TYPE_LABEL[item.type]}</span></span>`;
       row.addEventListener('click', (e) => {
         e.preventDefault();
         navigateTo(item.id);
@@ -164,6 +180,23 @@ function prevItem(itemId) {
   return idx > 0 ? ITEMS[idx - 1] : null;
 }
 
+function renderIntro(item) {
+  const main = document.getElementById('main');
+  const next = nextItem(item.id);
+
+  main.innerHTML = `
+    <div class="lesson-eyebrow">${COURSE.title}</div>
+    <h1 class="lesson-title">${item.title}</h1>
+    <div class="lesson-body intro-body">${item.body}</div>
+    <div class="lesson-nav">
+      <span class="spacer"></span>
+      <button class="btn btn-primary" id="btn-start">Start Module 1</button>
+    </div>
+  `;
+
+  document.getElementById('btn-start').addEventListener('click', () => navigateTo(next.id));
+}
+
 function renderLesson(item) {
   const main = document.getElementById('main');
   const next = nextItem(item.id);
@@ -172,13 +205,13 @@ function renderLesson(item) {
   main.innerHTML = `
     <div class="lesson-eyebrow">${item.moduleTitle}</div>
     <h1 class="lesson-title">${item.title}</h1>
-    <div class="lesson-video">▶ Video placeholder</div>
+    <div class="lesson-video">Video to be added</div>
     <div class="lesson-body">${item.body}</div>
     <div class="lesson-nav">
-      ${prev ? `<button class="btn btn-outline" id="btn-prev">← Back</button>` : `<span></span>`}
+      ${prev ? `<button class="btn btn-outline" id="btn-prev">Back</button>` : `<span></span>`}
       <span class="spacer"></span>
       <button class="btn btn-primary" id="btn-complete">
-        ${next ? 'Mark Complete & Continue →' : 'Mark Complete'}
+        ${next ? 'Mark complete and continue' : 'Mark complete'}
       </button>
     </div>
   `;
@@ -197,22 +230,29 @@ const PAGE_KIND = {
   teacher:   { eyebrow: 'Teacher guide', hint: 'For teachers. Mark it complete when you have read it' }
 };
 
+/* Tell an embedded page it is inside the player, so it can drop repeated chrome.
+   Pages opened on their own or from an LMS package are left as they are. */
+function markEmbedded(frame, ...classes) {
+  try { frame.contentDocument.documentElement.classList.add(...classes); }
+  catch (e) { /* cross-origin: leave the page unchanged */ }
+}
+
 function renderMaterial(item) {
   const main = document.getElementById('main');
   const next = nextItem(item.id);
   const prev = prevItem(item.id);
 
   main.innerHTML = `
-    <div class="lesson-eyebrow">${item.moduleTitle} · ${PAGE_KIND[item.type].eyebrow}</div>
+    <div class="lesson-eyebrow">${item.moduleTitle}, ${PAGE_KIND[item.type].eyebrow.toLowerCase()}</div>
     <div class="activity-bar">
       <span class="activity-status${progress[item.id] ? ' done' : ''}">${progress[item.id] ? 'Completed \u2713' : PAGE_KIND[item.type].hint}</span>
       <a class="activity-dl" href="${item.src}" target="_blank" rel="noopener">Open in a new tab / print</a>
     </div>
     <iframe id="material-frame" class="activity-frame material-frame" title="${item.title}" src="${item.src}"></iframe>
     <div class="lesson-nav">
-      ${prev ? `<button class="btn btn-outline" id="btn-prev">← Back</button>` : `<span></span>`}
+      ${prev ? `<button class="btn btn-outline" id="btn-prev">Back</button>` : `<span></span>`}
       <span class="spacer"></span>
-      <button class="btn btn-primary" id="btn-complete">${next ? 'Mark Complete & Continue →' : 'Mark Complete'}</button>
+      <button class="btn btn-primary" id="btn-complete">${next ? 'Mark complete and continue' : 'Mark complete'}</button>
     </div>
   `;
 
@@ -224,6 +264,7 @@ function renderMaterial(item) {
     } catch (e) { /* keep default height */ }
   }
   frame.addEventListener('load', () => {
+    markEmbedded(frame, 'in-course');
     fit();
     try {
       const doc = frame.contentDocument;
@@ -249,16 +290,15 @@ function renderActivity(item) {
   main.innerHTML = `
     <div class="lesson-eyebrow">${item.moduleTitle}</div>
     <h1 class="lesson-title">${item.title}</h1>
-    <p class="activity-intro">${item.intro}</p>
     <div class="activity-bar">
       <span id="activity-status" class="activity-status${progress[item.id] ? ' done' : ''}">${progress[item.id] ? 'Completed \u2713' : 'Not completed yet'}</span>
       <a class="activity-dl" href="${item.zip}" download>Download SCORM 1.2 package (.zip)</a>
     </div>
     <iframe id="activity-frame" class="activity-frame" title="${item.title}" src="${item.src}" loading="lazy"></iframe>
     <div class="lesson-nav">
-      ${prev ? `<button class="btn btn-outline" id="btn-prev">← Back</button>` : `<span></span>`}
+      ${prev ? `<button class="btn btn-outline" id="btn-prev">Back</button>` : `<span></span>`}
       <span class="spacer"></span>
-      ${next ? `<button class="btn btn-primary" id="btn-next">Continue →</button>` : ''}
+      ${next ? `<button class="btn btn-primary" id="btn-next">Continue</button>` : ''}
     </div>
   `;
 
@@ -270,6 +310,7 @@ function renderActivity(item) {
     } catch (e) { /* cross-origin: keep default height */ }
   }
   frame.addEventListener('load', () => {
+    markEmbedded(frame, 'in-course', 'in-activity');
     fit();
     try {
       const doc = frame.contentDocument;
@@ -297,9 +338,9 @@ function renderQuiz(item) {
     <h1 class="lesson-title">${item.title}</h1>
     <div id="quiz-questions"></div>
     <div class="lesson-nav">
-      ${prev ? `<button class="btn btn-outline" id="btn-prev">← Back</button>` : `<span></span>`}
+      ${prev ? `<button class="btn btn-outline" id="btn-prev">Back</button>` : `<span></span>`}
       <span class="spacer"></span>
-      <button class="btn btn-primary" id="btn-check">Check Answers</button>
+      <button class="btn btn-primary" id="btn-check">Check answers</button>
     </div>
   `;
 
@@ -346,13 +387,13 @@ function renderQuiz(item) {
       const fb = qEl.querySelector('.quiz-feedback');
       fb.style.display = 'block';
       if (chosenIdx === correctIdx) {
-        fb.textContent = '✓ Correct! ' + (item.questions[qi].explain || '');
+        fb.textContent = 'Correct. ' + (item.questions[qi].explain || '');
         fb.classList.add('correct');
       } else if (chosenIdx === null) {
-        fb.textContent = 'No answer selected — correct answer highlighted above. ' + (item.questions[qi].explain || '');
+        fb.textContent = 'No answer selected. The correct one is highlighted above. ' + (item.questions[qi].explain || '');
         fb.classList.add('incorrect');
       } else {
-        fb.textContent = 'Not quite — correct answer highlighted above. ' + (item.questions[qi].explain || '');
+        fb.textContent = 'Not quite. The correct answer is highlighted above. ' + (item.questions[qi].explain || '');
         fb.classList.add('incorrect');
       }
     });
@@ -362,7 +403,7 @@ function renderQuiz(item) {
     renderSidebar(item.id);
 
     const btn = document.getElementById('btn-check');
-    btn.textContent = next ? 'Continue →' : 'Finish Course →';
+    btn.textContent = next ? 'Continue' : 'Finish course';
     btn.onclick = null;
     btn.addEventListener('click', () => {
       if (next) navigateTo(next.id);
@@ -376,13 +417,12 @@ function renderCertificate() {
   const savedName = localStorage.getItem(NAME_KEY) || '';
   main.innerHTML = `
     <div class="certificate">
-      <div class="medal">🏅</div>
-      <h2>Course Complete!</h2>
+      <h2>Course complete</h2>
       <p>Enter your name to generate your certificate of completion.</p>
       <input type="text" id="cert-name" placeholder="Your name" value="${savedName}"
-        style="width:100%;max-width:320px;padding:12px 16px;border:1.5px solid var(--border);border-radius:8px;font-size:.9375rem;margin-bottom:20px;" />
+        style="width:100%;max-width:320px;padding:12px 16px;border:1px solid var(--border);border-radius:4px;font-size:.9375rem;margin-bottom:20px;" />
       <div>
-        <button class="btn btn-primary" id="btn-print">Save / Print Certificate</button>
+        <button class="btn btn-primary" id="btn-print">Save or print certificate</button>
       </div>
     </div>
   `;
@@ -406,7 +446,8 @@ function render() {
   renderProgressBar();
 
   activeActivityId = null;
-  if (item.type === 'quiz') renderQuiz(item);
+  if (item.type === 'intro') renderIntro(item);
+  else if (item.type === 'quiz') renderQuiz(item);
   else if (item.type === 'activity') renderActivity(item);
   else if (item.type === 'material' || item.type === 'worksheet' || item.type === 'teacher') renderMaterial(item);
   else renderLesson(item);

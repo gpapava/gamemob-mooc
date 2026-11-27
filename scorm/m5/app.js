@@ -53,16 +53,16 @@
   var ROAD_Y = 92, ROAD_H = 78, XC = 440;   // crossing centre x
   function draw(s) {
     ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = '#d9d3c2'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#dfe2e5'; ctx.fillRect(0, 0, W, H);
     // road
     ctx.fillStyle = '#3b4140'; ctx.fillRect(0, ROAD_Y, W, ROAD_H);
-    ctx.strokeStyle = '#f3efe6'; ctx.lineWidth = 3; ctx.setLineDash([20, 16]);
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3; ctx.setLineDash([20, 16]);
     ctx.beginPath(); ctx.moveTo(0, ROAD_Y + ROAD_H / 2); ctx.lineTo(W, ROAD_Y + ROAD_H / 2); ctx.stroke(); ctx.setLineDash([]);
     // crossing stripes
-    ctx.fillStyle = '#f3efe6';
+    ctx.fillStyle = '#ffffff';
     for (var y = ROAD_Y + 4; y < ROAD_Y + ROAD_H - 6; y += 14) ctx.fillRect(XC - 22, y, 44, 8);
     // stop line
-    ctx.fillStyle = '#f3efe6'; ctx.fillRect(XC - 36, ROAD_Y + ROAD_H / 2, 5, ROAD_H / 2);
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(XC - 36, ROAD_Y + ROAD_H / 2, 5, ROAD_H / 2);
 
     var carGreen = s.phase === 'CAR';
     var pedGreen = s.phase === 'PED';
@@ -77,7 +77,7 @@
     var shown = Math.min(s.carQ.length, 11);
     for (var i = 0; i < shown; i++) car(XC - 48 - i * 31, laneY, '#2c5f8c');
     if (s.carQ.length > shown) {
-      ctx.fillStyle = '#1c2321'; ctx.font = 'bold 13px "Helvetica Neue", Arial, sans-serif';
+      ctx.fillStyle = '#1c2321'; ctx.font = 'bold 13px system-ui, sans-serif';
       ctx.fillText('+' + (s.carQ.length - shown), XC - 48 - shown * 31 + 4, laneY + 5);
     }
     // cars passing
@@ -100,7 +100,7 @@
     });
 
     // phase caption
-    ctx.fillStyle = '#1c2321'; ctx.font = '12px "Helvetica Neue", Arial, sans-serif';
+    ctx.fillStyle = '#1c2321'; ctx.font = '12px system-ui, sans-serif';
     ctx.fillText(s.phase === 'CAR' ? 'cars go' : s.phase === 'PED' ? 'pedestrians cross' : 'all red, clearing', 14, 22);
     ctx.fillText('kerb', 14, ROAD_Y - 10);
   }
@@ -108,7 +108,7 @@
   function signal(x, y, colour, label) {
     ctx.fillStyle = '#1c2321'; ctx.fillRect(x - 11, y - 11, 22, 22);
     ctx.fillStyle = colour; ctx.beginPath(); ctx.arc(x, y, 7, 0, 7); ctx.fill();
-    ctx.fillStyle = '#1c2321'; ctx.font = '10px "Helvetica Neue", Arial, sans-serif';
+    ctx.fillStyle = '#1c2321'; ctx.font = '10px system-ui, sans-serif';
     ctx.fillText(label, x - 12, y + 24);
   }
   function car(x, y, c) {

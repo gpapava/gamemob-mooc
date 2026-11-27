@@ -12,7 +12,7 @@
   .stepper { display: inline-flex; align-items: center; gap: 0; border: var(--line); background: var(--paper-3); }
   .stepper button { box-shadow: none; border: 0; padding: 2px 9px; font-size: 1rem; line-height: 1.4; background: transparent; }
   .stepper button:hover:not(:disabled) { transform: none; background: var(--paper-2); }
-  .stepper output { min-width: 28px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; border-left: 1px solid #c9c2b0; border-right: 1px solid #c9c2b0; padding: 2px 0; }
+  .stepper output { min-width: 28px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; border-left: 1px solid #d8dce1; border-right: 1px solid #d8dce1; padding: 2px 0; }
   .na { color: var(--ink-3); }
   tr.left td { font-size: .8125rem; }
   .left .ok { color: var(--green); font-weight: 700; }
@@ -20,18 +20,17 @@
   .meter { height: 26px; border: var(--line); background: var(--paper-2); position: relative; margin: 6px 0; }
   .meter > div { height: 100%; background: var(--road); transition: width .25s; }
   .meter .target { position: absolute; top: -5px; bottom: -5px; border-left: 2px dashed var(--red); }
-  .big { font-family: Georgia, serif; font-size: 2rem; font-weight: 700; line-height: 1; }
+  .big { font-size: 2rem; font-weight: 700; line-height: 1; }
   .kpis { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 10px; }
   .kpis div { min-width: 110px; }
-  .kpis .lbl { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); }
+  .kpis .lbl { font-size: .75rem; color: var(--ink-2); }
 </style>
 </head>
 <body>
 
 <header class="head">
-  <div class="badge" aria-hidden="true">3</div>
   <div>
-    <div class="kicker">Module 3 · Environmental Impacts</div>
+    <div class="kicker">Module 3: Environmental Impacts</div>
     <h1>The school run, in grams</h1>
     <p class="lede">Class 2B has 24 pupils. This is how they get to school today. Change how each group travels and watch the year's emissions move. The goal is a large cut that still works for everyone, including the pupils who live far away.</p>
     <p class="small" style="margin-top:8px"><a href="material.html" target="_blank" rel="noopener">Read the study material for this module (opens in a new tab)</a></p>
