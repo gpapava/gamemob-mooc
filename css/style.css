@@ -161,6 +161,12 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
 .quiz-q p.q-text { font-weight: 600; margin-bottom: 10px; }
 .quiz-opt { padding: 10px 14px; border: 1px solid var(--border); border-radius: 4px; margin-bottom: 6px; cursor: pointer; font-size: .9375rem; }
 .quiz-opt:hover { border-color: var(--blue); }
+.quiz-rules { margin-bottom: 22px; max-width: 68ch; color: var(--ink-2); }
+.quiz-q.unanswered .q-text { color: var(--red); }
+.quiz-q.unanswered .q-text::after { content: " *"; }
+.quiz-result { max-width: 68ch; padding: 14px 18px; border-radius: 6px; font-weight: 600; font-size: .9375rem; }
+.quiz-result.pass { background: #e9f5e5; color: #23560f; }
+.quiz-result.fail, .quiz-result.warn { background: #fcebea; color: #8c1d17; }
 .quiz-opt.selected { border-color: var(--blue); background: var(--blue-bg); }
 .quiz-opt.correct { border-color: var(--green); background: #e9f5e5; }
 .quiz-opt.incorrect { border-color: var(--red); background: #fcebea; }

@@ -50,7 +50,7 @@ window.COURSE_TEXT.sr = {
         <li><strong>Interaktivna aktivnost:</strong> simulacija u kojoj isprobavate odluke i vidite šta se dešava</li>
         <li><strong>Stranica za učenje:</strong> kratak tekst sa ključnim podacima i rečnikom pojmova</li>
         <li><strong>Radni list:</strong> aktivnost za štampanje, za vašu školu ili komšiluk</li>
-        <li><strong>Kviz:</strong> šest pitanja sa objašnjenjem posle svakog odgovora</li>
+        <li><strong>Kviz:</strong> šest pitanja sa objašnjenjima; potrebna su najmanje četiri tačna odgovora, a možete pokušati ponovo</li>
         <li><strong>Vodič za nastavnike:</strong> plan časa i odgovori, za nastavnike</li>
       </ul>
 

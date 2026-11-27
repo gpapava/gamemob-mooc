@@ -53,7 +53,7 @@ const COURSE = {
         <li><strong>Interactive:</strong> a simulation where you try out decisions and see what happens</li>
         <li><strong>Study page:</strong> a short reading with key figures and a glossary</li>
         <li><strong>Worksheet:</strong> a printable activity for your school or neighbourhood</li>
-        <li><strong>Quiz:</strong> six questions with an explanation after each answer</li>
+        <li><strong>Quiz:</strong> six questions with explanations; at least four correct answers are needed, and you can try again</li>
         <li><strong>Teacher guide:</strong> lesson plan and answers, for teachers</li>
       </ul>
 

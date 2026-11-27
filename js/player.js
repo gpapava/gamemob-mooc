@@ -374,11 +374,16 @@ function renderActivity(item) {
   if (next) document.getElementById('btn-next').addEventListener('click', () => navigateTo(next.id));
 }
 
+/* Correct answers needed, out of the six in each module quiz, to complete it. */
+const QUIZ_PASS = 4;
+
 function renderQuiz(item) {
   const main = document.getElementById('main');
   const next = nextItem(item.id);
   const prev = prevItem(item.id);
-  const answers = new Array(item.questions.length).fill(null);
+  const total = item.questions.length;
+  const needed = Math.min(QUIZ_PASS, total);
+  const answers = new Array(total).fill(null);
   const shuffled = (n) => {
     const a = Array.from({ length: n }, (_, i) => i);
     for (let i = n - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
@@ -388,7 +393,9 @@ function renderQuiz(item) {
   main.innerHTML = `
     <div class="lesson-eyebrow">${item.moduleTitle}</div>
     <h1 class="lesson-title">${item.title}</h1>
+    <p class="quiz-rules">${progress[item.id] ? `<strong>${t('completed')} \u2713</strong> ` : ''}${t('q_rules', { n: total, min: needed })}</p>
     <div id="quiz-questions"></div>
+    <div id="quiz-result" class="quiz-result" role="status" hidden></div>
     <div class="lesson-nav">
       ${prev ? `<button class="btn btn-outline" id="btn-prev">${t('back')}</button>` : `<span></span>`}
       <span class="spacer"></span>
@@ -397,21 +404,38 @@ function renderQuiz(item) {
   `;
 
   const qWrap = document.getElementById('quiz-questions');
+  const result = document.getElementById('quiz-result');
+  function showResult(kind, message) {
+    result.className = 'quiz-result ' + kind;
+    result.textContent = message;
+    result.hidden = false;
+  }
+
   item.questions.forEach((q, qi) => {
     const qEl = document.createElement('div');
     qEl.className = 'quiz-q';
-    qEl.innerHTML = `<p class="q-text">${qi + 1}. ${q.q}</p>`;
+    qEl.setAttribute('role', 'radiogroup');
+    qEl.setAttribute('aria-labelledby', `q-${qi}`);
+    qEl.innerHTML = `<p class="q-text" id="q-${qi}">${qi + 1}. ${q.q}</p>`;
     shuffled(q.options.length).forEach((oi) => {
-      const opt = q.options[oi];
       const optEl = document.createElement('div');
       optEl.className = 'quiz-opt';
       optEl.dataset.idx = oi;
-      optEl.textContent = opt;
-      optEl.addEventListener('click', () => {
+      optEl.textContent = q.options[oi];
+      optEl.setAttribute('role', 'radio');
+      optEl.setAttribute('aria-checked', 'false');
+      optEl.tabIndex = 0;
+      const choose = () => {
         if (qEl.dataset.locked) return;
-        qEl.querySelectorAll('.quiz-opt').forEach(el => el.classList.remove('selected'));
+        qEl.querySelectorAll('.quiz-opt').forEach(el => { el.classList.remove('selected'); el.setAttribute('aria-checked', 'false'); });
         optEl.classList.add('selected');
+        optEl.setAttribute('aria-checked', 'true');
         answers[qi] = oi;
+        qEl.classList.remove('unanswered');
+      };
+      optEl.addEventListener('click', choose);
+      optEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(); }
       });
       qEl.appendChild(optEl);
     });
@@ -424,47 +448,62 @@ function renderQuiz(item) {
 
   if (prev) document.getElementById('btn-prev').addEventListener('click', () => navigateTo(prev.id));
 
-  document.getElementById('btn-check').addEventListener('click', () => {
+  const btn = document.getElementById('btn-check');
+  let checked = false;
+  let passed = false;
+  btn.addEventListener('click', () => {
+    if (checked) {
+      if (!passed) { renderQuiz(item); window.scrollTo(0, 0); }
+      else if (next) navigateTo(next.id);
+      else navigateTo('certificate');
+      return;
+    }
+
     const qEls = qWrap.querySelectorAll('.quiz-q');
+    const missing = answers.map((a, i) => (a === null ? i : -1)).filter(i => i >= 0);
+    if (missing.length) {
+      missing.forEach(i => qEls[i].classList.add('unanswered'));
+      showResult('warn', t('q_unanswered', { list: missing.map(i => i + 1).join(', ') }));
+      qEls[missing[0]].scrollIntoView({ block: 'center' });
+      return;
+    }
+
+    checked = true;
+    const score = item.questions.filter((q, i) => answers[i] === q.correct).length;
+    passed = score >= needed;
     qEls.forEach((qEl, qi) => {
       qEl.dataset.locked = 'true';
-      const opts = qEl.querySelectorAll('.quiz-opt');
-      const correctIdx = item.questions[qi].correct;
-      const chosenIdx = answers[qi];
-      opts.forEach((el) => {
+      const q = item.questions[qi];
+      const right = answers[qi] === q.correct;
+      qEl.querySelectorAll('.quiz-opt').forEach((el) => {
         const oi = +el.dataset.idx;
-        if (oi === correctIdx) el.classList.add('correct');
-        else if (oi === chosenIdx) el.classList.add('incorrect');
+        el.tabIndex = -1;
+        // below the pass mark the right answers stay hidden, so another attempt still means something
+        if (oi === q.correct && (passed || right)) el.classList.add('correct');
+        else if (oi === answers[qi] && !right) el.classList.add('incorrect');
       });
       const fb = qEl.querySelector('.quiz-feedback');
       fb.style.display = 'block';
-      if (chosenIdx === correctIdx) {
-        fb.textContent = t('q_correct') + ' ' + (item.questions[qi].explain || '');
-        fb.classList.add('correct');
-      } else if (chosenIdx === null) {
-        fb.textContent = t('q_none') + ' ' + (item.questions[qi].explain || '');
-        fb.classList.add('incorrect');
-      } else {
-        fb.textContent = t('q_wrong') + ' ' + (item.questions[qi].explain || '');
-        fb.classList.add('incorrect');
-      }
+      fb.classList.add(right ? 'correct' : 'incorrect');
+      if (right) fb.textContent = t('q_correct') + ' ' + (q.explain || '');
+      else fb.textContent = passed ? t('q_wrong') + ' ' + (q.explain || '') : t('q_wrong_retry');
     });
 
-    const score = item.questions.filter((q, i) => answers[i] === q.correct).length;
-    Analytics.once(`quiz-score/${item.moduleId}/${score}-of-${item.questions.length}`, `quiz/${item.moduleId}`);
+    // statistics keep the first full attempt on this device, passed or not
+    Analytics.once(`quiz-score/${item.moduleId}/${score}-of-${total}`, `quiz/${item.moduleId}`);
 
-    markComplete(item.id);
-    renderProgressBar();
-    renderSidebar(item.id);
-    addModuleFeedback(item);
-
-    const btn = document.getElementById('btn-check');
-    btn.textContent = next ? t('next') : t('finish');
-    btn.onclick = null;
-    btn.addEventListener('click', () => {
-      if (next) navigateTo(next.id);
-      else navigateTo('certificate');
-    });
+    if (passed) {
+      showResult('pass', t('q_passed', { score, n: total }));
+      markComplete(item.id);
+      renderProgressBar();
+      renderSidebar(item.id);
+      addModuleFeedback(item);
+      btn.textContent = next ? t('next') : t('finish');
+    } else {
+      showResult('fail', t('q_failed', { score, n: total, min: needed }));
+      btn.textContent = t('q_retry');
+    }
+    result.scrollIntoView({ block: 'nearest' });
   });
 }
 
