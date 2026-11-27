@@ -111,6 +111,12 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
 .player-progress .bar { height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; margin-top: 6px; }
 .player-progress .bar-fill { height: 100%; width: 0; background: var(--green); transition: width .3s ease; }
 
+.sb-privacy { display: block; padding: 14px 20px; font-size: .8125rem; color: var(--ink-2); text-underline-offset: 3px; }
+.privacy { max-width: 760px; padding-top: 32px; padding-bottom: 56px; }
+.privacy h1 { font-size: 1.75rem; margin-bottom: 14px; }
+.privacy h2 { font-size: 1.15rem; margin: 24px 0 8px; }
+.privacy p { margin-bottom: 12px; }
+.privacy a { color: var(--blue); }
 .sb-intro { display: block; padding: 11px 20px; font-size: .875rem; font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--border); }
 .sb-module { border-bottom: 1px solid var(--border); }
 .sb-module-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 20px; font-size: .875rem; font-weight: 600; cursor: pointer; user-select: none; }
@@ -134,6 +140,17 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
 .lesson-body p { margin-bottom: 16px; }
 .lesson-body ul { list-style: disc; padding-left: 22px; margin-bottom: 16px; }
 .lesson-body li { margin-bottom: 6px; }
+.case-body h2 { font-size: 1.2rem; margin: 26px 0 10px; }
+.case-body ol { padding-left: 22px; margin-bottom: 16px; }
+.case-table { overflow-x: auto; margin-bottom: 18px; }
+.case-table table { border-collapse: collapse; min-width: 320px; font-size: .9375rem; font-variant-numeric: tabular-nums; }
+.case-table th, .case-table td { border: 1px solid var(--border); padding: 7px 14px; text-align: left; }
+.case-table thead th { background: var(--surface); font-size: .8125rem; }
+.case-table tbody th { font-weight: 400; }
+.case-table td, .case-table thead th + th { text-align: right; }
+.case-note { font-size: .875rem; color: var(--ink-2); }
+.case-body .case-sources { font-size: .875rem; overflow-wrap: anywhere; }
+.case-sources a { color: var(--blue); }
 .intro-body h2 { font-size: 1.25rem; margin: 28px 0 10px; }
 .intro-body h3 { font-size: 1rem; margin: 18px 0 6px; }
 .lesson-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); }

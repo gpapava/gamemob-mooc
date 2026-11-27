@@ -57,6 +57,7 @@
   <footer>
     <div class="container">
       <p data-i18n-html="footer">Part of the <a href="https://www.gamemob.eu">GAMEMOB</a> project, co-funded by EIT Urban Mobility and the European Union.</p>
+      <p><a href="privacy.html" data-i18n="privacy_link">Privacy</a></p>
     </div>
   </footer>
 
@@ -64,7 +65,9 @@
   <script src="js/course-el.js"></script>
   <script src="js/course-sr.js"></script>
   <script src="js/i18n.js"></script>
+  <script src="js/analytics.js"></script>
   <script>
+    Analytics.view('home');
     document.getElementById('course-title').textContent = COURSE.title;
     const list = document.getElementById('module-list');
     COURSE.modules.forEach((m, i) => {
@@ -76,6 +79,7 @@
           <h3><a href="learn.html?module=${m.id}">${t('module_n', { n: i + 1, title: m.title })}</a></h3>
           <p>${t('lessons_list', { list: m.lessons.map(l => l.title).join(LANG === 'el' ? ' · ' : '; ') })}</p>
           <div class="module-links">
+            ${link(m.caseStudy, t('type_case'))}
             ${link(m.activity, m.activity && t('interactive_suffix', { title: m.activity.title }))}
             ${link(m.material, t('type_material'))}
             ${link(m.worksheet, t('type_worksheet'))}

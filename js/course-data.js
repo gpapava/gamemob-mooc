@@ -49,6 +49,7 @@ const COURSE = {
       <h2>How each module works</h2>
       <ul>
         <li><strong>Lessons:</strong> short introductions to the topic</li>
+        <li><strong>Case study:</strong> a real example from a European city (Modules 1 and 5)</li>
         <li><strong>Interactive:</strong> a simulation where you try out decisions and see what happens</li>
         <li><strong>Study page:</strong> a short reading with key figures and a glossary</li>
         <li><strong>Worksheet:</strong> a printable activity for your school or neighbourhood</li>
@@ -86,11 +87,63 @@ const COURSE = {
           id: "m1l2",
           title: "Why Cities Need to Change How We Move",
           body: `
-            <p>Urban areas are growing fast, and traffic, noise, and air pollution are growing with them. This lesson looks at real examples from RIS regions in Greece and Serbia.</p>
+            <p>Urban areas are growing fast, and traffic, noise, and air pollution are growing with them. The case study that follows shows how one European city, Pontevedra in Spain, changed its streets.</p>
             <p>You'll learn how small daily choices, like walking to school instead of being driven, add up to measurable change at the city level.</p>
           `
         }
       ],
+      caseStudy: {
+        id: "m1c",
+        title: "Case study: Pontevedra gives its streets back",
+        body: `
+      <p>Pontevedra is a city of about 83,000 people in north-west Spain.</p>
+      <h2>The problem</h2>
+      <p>In the mid-1990s almost 50,000 motor vehicles were registered in the city. The centre was often jammed, noisy and polluted. In 1996 there were about 98,700 motor vehicle trips on an average day, and a survey found that 70% of shopping trips were made by car.</p>
+      <h2>What changed</h2>
+      <p>Starting in 1999, the city changed its streets step by step:</p>
+      <ul>
+        <li>The historic centre was pedestrianised first.</li>
+        <li>Street space was shared by width. Streets 8–10 m wide became one level surface where people on foot have priority. Streets 10–14 m wide kept one traffic lane, got wider pavements and had time-limited parking.</li>
+        <li>Parking moved from the centre to the edge of town and underground.</li>
+        <li>34 sets of traffic lights were replaced by roundabouts, and 208 protected pedestrian crossings were created.</li>
+        <li>In 2010 the speed limit became 30 km/h across the city, and 10 km/h in some parts.</li>
+      </ul>
+      <h2>What people said</h2>
+      <p>At first some residents resisted, and political opponents used the complaints. Many former opponents later took part in the planning. A minority, estimated at 10–15% of residents, still wanted to be able to drive everywhere.</p>
+      <h2>What happened</h2>
+      <p>Cars per day on four streets:</p>
+      <div class="case-table"><table>
+        <thead><tr><th scope="col">Street</th><th scope="col">1997</th><th scope="col">2016</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Compostela Avenue</th><td>28,100</td><td>8,700</td></tr>
+          <tr><th scope="row">Marín Avenue</th><td>28,000</td><td>15,200</td></tr>
+          <tr><th scope="row">Daniel de la Sota</th><td>21,200</td><td>2,000</td></tr>
+          <tr><th scope="row">José Malvar Figueroa</th><td>9,100</td><td>11,700</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li>The city reports that about two out of three journeys are now made on foot.</li>
+        <li>The city reports that up to 81% of children aged 7–12 walk to school.</li>
+        <li>30 people died in road traffic between 1996 and 2006. The city reports no road deaths between 2011 and 2020.</li>
+      </ul>
+      <h2>Think and discuss</h2>
+      <ol>
+        <li>Who gained from these changes, and who had to give something up?</li>
+        <li>Traffic rose on one street in the table. What could explain this, and who would you want to ask?</li>
+        <li>Several results were reported by the city itself. What other evidence would you look for?</li>
+        <li>Compare with “Rebuild the street”. Which of Pontevedra’s changes would work outside your school, and which would not?</li>
+      </ol>
+      <h2>Sources</h2>
+      <p class="case-note">Figures come from the sources below, read in November 2026. They give different totals for the fall in traffic, depending on the area and years compared, so only street counts are shown here.</p>
+      <ul class="case-sources">
+        <li><a href="https://www.umweltbundesamt.de/system/files/medien/366/dokumente/factsheet_best_practice_muv_pontevedra.pdf" target="_blank" rel="noopener">German Environment Agency (UBA), factsheet on Pontevedra</a></li>
+        <li><a href="https://ok.pontevedra.gal/en/before-and-after/" target="_blank" rel="noopener">City of Pontevedra, “Before and after”</a></li>
+        <li><a href="https://ok.pontevedra.gal/en/few-results-of-the-transformation/" target="_blank" rel="noopener">City of Pontevedra, “A few results of the transformation”</a></li>
+        <li><a href="https://ok.pontevedra.gal/en/public-spaces/" target="_blank" rel="noopener">City of Pontevedra, “Public spaces”</a></li>
+        <li><a href="https://www.santepubliquefrance.fr/docs/article/pontevedra-spain-pedestrians-rule-roads-relegating-cars-sidelines-interview" target="_blank" rel="noopener">Santé publique France (2022), interview with the mayor of Pontevedra</a></li>
+      </ul>
+    `
+      },
       material: {
         id: "m1p",
         title: "How a street shares its space",
@@ -432,6 +485,48 @@ const COURSE = {
           `
         }
       ],
+      caseStudy: {
+        id: "m5c",
+        title: "Case study: Driverless minibuses in Trikala",
+        body: `
+      <p>From August 2015 to February 2016 the city of Trikala in central Greece tested small buses without a driver, as part of the European research project CityMobil2.</p>
+      <h2>The idea</h2>
+      <p>The aim was to try an automated transport system in a real city centre: not only the vehicles, but also the road, the traffic lights, the people supervising it and the rules.</p>
+      <h2>How it worked</h2>
+      <ul>
+        <li>Each minibus carried 10 passengers. Two were in service at any time.</li>
+        <li>The route ran through the city centre, near the central bus station, and crossed ordinary traffic.</li>
+        <li>The minibuses had their own lane, separated only lightly, with road studs.</li>
+        <li>Seven new or modified traffic lights communicated with the vehicles and the control centre.</li>
+        <li>Trained operators supervised the minibuses from a control centre and could stop them remotely.</li>
+        <li>Greece needed new legal rules to approve such vehicles.</li>
+      </ul>
+      <h2>What happened</h2>
+      <ul>
+        <li>1,490 trips, 12,138 passengers and 3,580 km travelled.</li>
+        <li>42% of surveyed users in Trikala rode it two to four days a week. In the other cities most people rode mainly to try it.</li>
+        <li>In Trikala more trips were for health, paperwork and education, and users rated its usefulness higher than in the other cities. Surveys also showed more walking and less car use.</li>
+        <li>Across the project the vehicles ran slowly, at about 10 km/h. There were some technical failures, and dust or heavy rain could be mistaken for obstacles.</li>
+        <li>Most local stakeholders asked said they would prefer such vehicles to have fully separate lanes.</li>
+      </ul>
+      <h2>What came next</h2>
+      <p>In 2018 researchers presented a follow-up project, AVINT, which planned an automated bus line linking the city centre, the university and the central bus station.</p>
+      <h2>Think and discuss</h2>
+      <ol>
+        <li>On average, how many passengers did one trip carry? How does that compare with the 10 places on board?</li>
+        <li>Which problem did the minibus solve? Is there a simpler way to solve it?</li>
+        <li>What could go wrong? Think about failures, privacy and people who find it hard to get on board.</li>
+        <li>A separate lane takes street space. Who would you ask before giving it one?</li>
+      </ol>
+      <h2>Sources</h2>
+      <p class="case-note">Figures come from the sources below, read in November 2026. The sources do not agree on every detail, for example how many vehicles took part in total.</p>
+      <ul class="case-sources">
+        <li><a href="https://cordis.europa.eu/project/id/314190/reporting/en" target="_blank" rel="noopener">European Commission, CORDIS: CityMobil2 final report summary</a></li>
+        <li><a href="https://datex2.eu/datex2_forum_2018_public_files/2.%20Introducing%20DATEX%20II%20Version%203/BREAK%201_ZONE%203%20-%20Implementing%20Automated%20Vechiles%20in%20Urban%20Public%20Transportation%20-%20Anna%20Antonakopoulou%20(ICCS%20-%20GR).pdf" target="_blank" rel="noopener">ICCS (2018), “Implementing automated vehicles in urban public transportation”, slides</a></li>
+        <li><a href="https://urbact.eu/articles/digital-transformation-mobility-systems-and-services-trikala-greece" target="_blank" rel="noopener">URBACT, “The digital transformation of the mobility systems and services in Trikala, Greece”</a></li>
+      </ul>
+    `
+      },
       material: {
         id: "m5p",
         title: "Technology as a tool, not the goal",

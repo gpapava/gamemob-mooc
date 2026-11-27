@@ -46,6 +46,7 @@ window.COURSE_TEXT.sr = {
       <h2>Kako izgleda svaki modul</h2>
       <ul>
         <li><strong>Lekcije:</strong> kratki uvodi u temu</li>
+        <li><strong>Studija slučaja:</strong> stvaran primer iz jednog evropskog grada (moduli 1 i 5)</li>
         <li><strong>Interaktivna aktivnost:</strong> simulacija u kojoj isprobavate odluke i vidite šta se dešava</li>
         <li><strong>Stranica za učenje:</strong> kratak tekst sa ključnim podacima i rečnikom pojmova</li>
         <li><strong>Radni list:</strong> aktivnost za štampanje, za vašu školu ili komšiluk</li>
@@ -80,10 +81,61 @@ window.COURSE_TEXT.sr = {
         m1l2: {
           title: "Zašto gradovi moraju da promene način na koji se krećemo",
           body: `
-            <p>Gradska područja brzo rastu, a sa njima rastu saobraćaj, buka i zagađenje vazduha. Ova lekcija razmatra stvarne primere iz RIS regiona u Grčkoj i Srbiji.</p>
+            <p>Gradska područja brzo rastu, a sa njima rastu saobraćaj, buka i zagađenje vazduha. Studija slučaja koja sledi pokazuje kako je jedan evropski grad, Pontevedra u Španiji, promenio svoje ulice.</p>
             <p>Videćete kako se mali svakodnevni izbori, na primer pešačenje do škole umesto vožnje automobilom, sabiraju u merljivu promenu na nivou celog grada.</p>
           `
         }
+      },
+      caseStudy: {
+        title: "Studija slučaja: Pontevedra vraća ulice ljudima",
+        body: `
+      <p>Pontevedra je grad sa oko 83.000 stanovnika na severozapadu Španije.</p>
+      <h2>Problem</h2>
+      <p>Sredinom 1990-ih u gradu je bilo registrovano skoro 50.000 motornih vozila. U centru su često bile gužve, buka i zagađenje. Godine 1996. prosečno je dnevno bilo oko 98.700 putovanja motornim vozilima, a jedna anketa pokazala je da se 70% odlazaka u kupovinu obavlja automobilom.</p>
+      <h2>Šta se promenilo</h2>
+      <p>Počevši od 1999. godine, grad je korak po korak menjao svoje ulice:</p>
+      <ul>
+        <li>Prvo je istorijsko jezgro pretvoreno u pešačku zonu.</li>
+        <li>Prostor je podeljen prema širini ulice. Ulice široke 8–10 m postale su jedinstvena površina na kojoj pešaci imaju prvenstvo. Ulice široke 10–14 m zadržale su jednu saobraćajnu traku, dobile šire trotoare i vremenski ograničeno parkiranje.</li>
+        <li>Parkiranje je iz centra premešteno na obod grada i pod zemlju.</li>
+        <li>34 semafora zamenjena su kružnim tokovima, a uređeno je 208 zaštićenih pešačkih prelaza.</li>
+        <li>Godine 2010. ograničenje brzine postalo je 30 km/h u celom gradu, a u nekim delovima 10 km/h.</li>
+      </ul>
+      <h2>Šta su ljudi rekli</h2>
+      <p>U početku su se neki stanovnici protivili, a politička opozicija koristila je te pritužbe. Mnogi dotadašnji protivnici kasnije su učestvovali u planiranju. Manjina, procenjena na 10–15% stanovnika, i dalje je želela da može svuda da vozi.</p>
+      <h2>Šta se dogodilo</h2>
+      <p>Broj automobila dnevno u četiri ulice:</p>
+      <div class="case-table"><table>
+        <thead><tr><th scope="col">Ulica</th><th scope="col">1997.</th><th scope="col">2016.</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Compostela Avenue</th><td>28.100</td><td>8.700</td></tr>
+          <tr><th scope="row">Marín Avenue</th><td>28.000</td><td>15.200</td></tr>
+          <tr><th scope="row">Daniel de la Sota</th><td>21.200</td><td>2.000</td></tr>
+          <tr><th scope="row">José Malvar Figueroa</th><td>9.100</td><td>11.700</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li>Grad navodi da se danas otprilike dva od tri putovanja obavljaju pešice.</li>
+        <li>Grad navodi da do 81% dece uzrasta 7–12 godina ide u školu pešice.</li>
+        <li>Od 1996. do 2006. u saobraćaju je poginulo 30 ljudi. Grad navodi da od 2011. do 2020. nije bilo poginulih u saobraćaju.</li>
+      </ul>
+      <h2>Razmislite i razgovarajte</h2>
+      <ol>
+        <li>Ko je dobio ovim promenama, a ko je morao nečega da se odrekne?</li>
+        <li>U jednoj ulici iz tabele saobraćaj je porastao. Šta bi to moglo da objasni i koga biste pitali?</li>
+        <li>Više rezultata objavio je sam grad. Koje biste druge dokaze potražili?</li>
+        <li>Uporedite sa aktivnošću „Preuredite ulicu“. Koje bi promene iz Pontevedre mogle da uspeju ispred vaše škole, a koje ne bi?</li>
+      </ol>
+      <h2>Izvori</h2>
+      <p class="case-note">Podaci potiču iz izvora navedenih u nastavku, pročitanih u novembru 2026. Izvori daju različite ukupne procente smanjenja saobraćaja, zavisno od područja i godina koje porede, pa su ovde prikazana samo brojanja po ulicama.</p>
+      <ul class="case-sources">
+        <li><a href="https://www.umweltbundesamt.de/system/files/medien/366/dokumente/factsheet_best_practice_muv_pontevedra.pdf" target="_blank" rel="noopener">German Environment Agency (UBA), factsheet on Pontevedra</a></li>
+        <li><a href="https://ok.pontevedra.gal/en/before-and-after/" target="_blank" rel="noopener">City of Pontevedra, “Before and after”</a></li>
+        <li><a href="https://ok.pontevedra.gal/en/few-results-of-the-transformation/" target="_blank" rel="noopener">City of Pontevedra, “A few results of the transformation”</a></li>
+        <li><a href="https://ok.pontevedra.gal/en/public-spaces/" target="_blank" rel="noopener">City of Pontevedra, “Public spaces”</a></li>
+        <li><a href="https://www.santepubliquefrance.fr/docs/article/pontevedra-spain-pedestrians-rule-roads-relegating-cars-sidelines-interview" target="_blank" rel="noopener">Santé publique France (2022), interview with the mayor of Pontevedra</a></li>
+      </ul>
+    `
       },
       material: { title: "Kako ulica deli svoj prostor" },
       activity: { title: "Preuredite ulicu", intro: "Preuredite ulicu široku 20 m za potrebe škole i pogledajte koliko ljudi svaki izbor može da preveze." },
@@ -217,6 +269,47 @@ window.COURSE_TEXT.sr = {
             <p>Kurs ćete zaokružiti tako što ćete osmisliti i skicirati sopstvenu ideju za održivije i bezbednije kretanje po svom gradu, na isti način razmišljanja koji stoji iza ozbiljne igre GAMEMOB.</p>
           `
         }
+      },
+      caseStudy: {
+        title: "Studija slučaja: Minibusevi bez vozača u Trikali",
+        body: `
+      <p>Od avgusta 2015. do februara 2016. grad Trikala u centralnoj Grčkoj isprobavao je male autobuse bez vozača, u okviru evropskog istraživačkog projekta CityMobil2.</p>
+      <h2>Ideja</h2>
+      <p>Cilj je bio da se automatizovani sistem prevoza isproba u stvarnom gradskom centru: ne samo vozila, već i put, semafori, ljudi koji nadgledaju sistem i pravila.</p>
+      <h2>Kako je radilo</h2>
+      <ul>
+        <li>Svaki minibus primao je 10 putnika. U svakom trenutku saobraćala su dva.</li>
+        <li>Trasa je prolazila kroz centar grada, blizu glavne autobuske stanice, i ukrštala se sa običnim saobraćajem.</li>
+        <li>Minibusevi su imali svoju traku, samo blago odvojenu reflektujućim oznakama na kolovozu.</li>
+        <li>Sedam novih ili prepravljenih semafora komuniciralo je sa vozilima i kontrolnim centrom.</li>
+        <li>Obučeni operateri nadgledali su minibuseve iz kontrolnog centra i mogli su da ih zaustave na daljinu.</li>
+        <li>Grčkoj su bila potrebna nova zakonska pravila za odobravanje takvih vozila.</li>
+      </ul>
+      <h2>Šta se dogodilo</h2>
+      <ul>
+        <li>1.490 vožnji, 12.138 putnika i 3.580 pređenih kilometara.</li>
+        <li>42% anketiranih korisnika u Trikali vozilo se njime dva do četiri dana nedeljno. U drugim gradovima većina se vozila uglavnom da bi ga isprobala.</li>
+        <li>U Trikali je više vožnji bilo zbog zdravlja, obavljanja administrativnih poslova i obrazovanja, a korisnici su njegovu korisnost ocenili višom nego u drugim gradovima. Ankete su pokazale i više pešačenja i manje korišćenja automobila.</li>
+        <li>U celom projektu vozila su se kretala sporo, oko 10 km/h. Bilo je nekoliko tehničkih kvarova, a prašina ili jaka kiša mogle su biti protumačene kao prepreke.</li>
+        <li>Većina anketiranih lokalnih aktera izjavila je da bi volela da takva vozila imaju potpuno odvojene trake.</li>
+      </ul>
+      <h2>Šta je usledilo</h2>
+      <p>Istraživači su 2018. predstavili naredni projekat, AVINT, koji je planirao automatizovanu autobusku liniju između centra grada, univerziteta i glavne autobuske stanice.</p>
+      <h2>Razmislite i razgovarajte</h2>
+      <ol>
+        <li>Koliko je putnika u proseku prevezeno po jednoj vožnji? Kako se to može uporediti sa 10 mesta u vozilu?</li>
+        <li>Koji je problem minibus rešio? Postoji li jednostavniji način da se on reši?</li>
+        <li>Šta bi moglo da pođe po zlu? Razmislite o kvarovima, privatnosti i ljudima kojima je teško da uđu u vozilo.</li>
+        <li>Posebna traka zauzima prostor na ulici. Koga biste pitali pre nego što je uvedete?</li>
+      </ol>
+      <h2>Izvori</h2>
+      <p class="case-note">Podaci potiču iz izvora navedenih u nastavku, pročitanih u novembru 2026. Izvori se ne slažu u svim pojedinostima, na primer u tome koliko je vozila ukupno učestvovalo.</p>
+      <ul class="case-sources">
+        <li><a href="https://cordis.europa.eu/project/id/314190/reporting/en" target="_blank" rel="noopener">European Commission, CORDIS: CityMobil2 final report summary</a></li>
+        <li><a href="https://datex2.eu/datex2_forum_2018_public_files/2.%20Introducing%20DATEX%20II%20Version%203/BREAK%201_ZONE%203%20-%20Implementing%20Automated%20Vechiles%20in%20Urban%20Public%20Transportation%20-%20Anna%20Antonakopoulou%20(ICCS%20-%20GR).pdf" target="_blank" rel="noopener">ICCS (2018), “Implementing automated vehicles in urban public transportation”, slides</a></li>
+        <li><a href="https://urbact.eu/articles/digital-transformation-mobility-systems-and-services-trikala-greece" target="_blank" rel="noopener">URBACT, “The digital transformation of the mobility systems and services in Trikala, Greece”</a></li>
+      </ul>
+    `
       },
       material: { title: "Tehnologija kao alat, a ne cilj" },
       activity: { title: "Naučite prelaz da sluša", intro: "Podesite fiksni tajmer, taster za pešake i senzor na pešačkom prelazu kod škole i uporedite rezultate." },

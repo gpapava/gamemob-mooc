@@ -17,12 +17,13 @@ function saveProgress(progress) {
   } catch (e) { /* storage unavailable — progress just won't persist */ }
 }
 
-// Build a flat, ordered list of items per module: lessons, interactive activity, study page, worksheet, quiz, teacher guide.
+// Build a flat, ordered list of items per module: lessons, case study (where there is one), interactive activity, study page, worksheet, quiz, teacher guide.
 
 function buildItems() {
   const items = [{ type: 'intro', ...COURSE.overview }];
   COURSE.modules.forEach(m => {
     m.lessons.forEach(l => items.push({ type: 'lesson', moduleId: m.id, moduleTitle: m.title, ...l }));
+    if (m.caseStudy) items.push({ type: 'case', moduleId: m.id, moduleTitle: m.title, ...m.caseStudy });
     if (m.activity) items.push({ type: 'activity', moduleId: m.id, moduleTitle: m.title, ...m.activity });
     if (m.material) items.push({ type: 'material', moduleId: m.id, moduleTitle: m.title, ...m.material });
     if (m.worksheet) items.push({ type: 'worksheet', moduleId: m.id, moduleTitle: m.title, ...m.worksheet });
@@ -168,6 +169,28 @@ function navigateTo(itemId) {
 function markComplete(itemId) {
   progress[itemId] = true;
   saveProgress(progress);
+  trackCompletion(itemId);
+}
+
+/* ---- Anonymous statistics ----
+   A module counts as completed when everything meant for learners is done; the teacher guide is not. */
+function moduleDone(moduleId) {
+  return ITEMS.filter(i => i.moduleId === moduleId && i.type !== 'teacher').every(i => progress[i.id]);
+}
+
+function trackCompletion(itemId) {
+  const item = ITEMS.find(i => i.id === itemId);
+  if (!item || !item.moduleId || item.type === 'teacher') return;
+  Analytics.once('course-started');
+  if (moduleDone(item.moduleId)) Analytics.once(`module-completed/${item.moduleId}`);
+  if (COURSE.modules.every(m => moduleDone(m.id))) Analytics.once('course-completed');
+}
+
+let lastViewed = null;
+function trackView(itemId) {
+  if (itemId === lastViewed) return;
+  lastViewed = itemId;
+  Analytics.view(`learn/${itemId}`);
 }
 
 function nextItem(itemId) {
@@ -204,8 +227,8 @@ function renderLesson(item) {
   main.innerHTML = `
     <div class="lesson-eyebrow">${item.moduleTitle}</div>
     <h1 class="lesson-title">${item.title}</h1>
-    <div class="lesson-video">${t('video_pending')}</div>
-    <div class="lesson-body">${item.body}</div>
+    ${item.type === 'case' ? '' : `<div class="lesson-video">${t('video_pending')}</div>`}
+    <div class="lesson-body${item.type === 'case' ? ' case-body' : ''}">${item.body}</div>
     <div class="lesson-nav">
       ${prev ? `<button class="btn btn-outline" id="btn-prev">${t('back')}</button>` : `<span></span>`}
       <span class="spacer"></span>
@@ -329,6 +352,8 @@ function renderActivity(item) {
     </div>
   `;
 
+  main.querySelector('a[download]').addEventListener('click', () => Analytics.event(`download/${item.moduleId}`));
+
   const frame = document.getElementById('activity-frame');
   function fit() {
     try {
@@ -425,6 +450,9 @@ function renderQuiz(item) {
       }
     });
 
+    const score = item.questions.filter((q, i) => answers[i] === q.correct).length;
+    Analytics.once(`quiz-score/${item.moduleId}/${score}-of-${item.questions.length}`, `quiz/${item.moduleId}`);
+
     markComplete(item.id);
     renderProgressBar();
     renderSidebar(item.id);
@@ -466,6 +494,7 @@ function render() {
     renderSidebar('certificate');
     renderProgressBar();
     renderCertificate();
+    trackView('certificate');
     renderBannerFeedback();
     return;
   }
@@ -483,6 +512,7 @@ function render() {
 
   if (item.type === 'teacher') addModuleFeedback(item);
   renderBannerFeedback(item.moduleId);
+  trackView(item.id);
 }
 
 window.addEventListener('popstate', render);

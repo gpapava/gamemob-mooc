@@ -13,6 +13,7 @@ const UI = {
     home_page_title: 'GAMEMOB Online Course – Free MOOC on Sustainable Urban Mobility',
     home_page_desc: 'A free, self-paced online course on sustainable urban mobility and road safety for students aged 12–19, developed by the EU-funded GAMEMOB project.',
     learn_page_title: 'Learn – GAMEMOB Online Course',
+    privacy_link: 'Privacy', privacy_page_title: 'Privacy – GAMEMOB Online Course',
     logo_sub: 'Online course',
     course_home: 'Course home',
     language: 'Language',
@@ -35,7 +36,7 @@ const UI = {
     banner_link: 'Send us your feedback',
     english_only: '',
     pct_complete: '{pct}% complete',
-    type_lesson: 'Lesson', type_material: 'Study page', type_worksheet: 'Worksheet', type_activity: 'Interactive', type_quiz: 'Quiz', type_teacher: 'Teacher guide',
+    type_lesson: 'Lesson', type_case: 'Case study', type_material: 'Study page', type_worksheet: 'Worksheet', type_activity: 'Interactive', type_quiz: 'Quiz', type_teacher: 'Teacher guide',
     start_module1: 'Start Module 1',
     video_pending: 'Video to be added',
     back: 'Back',
@@ -66,6 +67,7 @@ const UI = {
     home_page_title: 'Διαδικτυακό μάθημα GAMEMOB – Δωρεάν MOOC για τη βιώσιμη αστική κινητικότητα',
     home_page_desc: 'Δωρεάν διαδικτυακό μάθημα, με τον δικό σας ρυθμό, για τη βιώσιμη αστική κινητικότητα και την οδική ασφάλεια, για μαθητές και μαθήτριες 12–19 ετών, από το ευρωπαϊκό έργο GAMEMOB.',
     learn_page_title: 'Μάθημα – Διαδικτυακό μάθημα GAMEMOB',
+    privacy_link: 'Απόρρητο', privacy_page_title: 'Απόρρητο – Διαδικτυακό μάθημα GAMEMOB',
     logo_sub: 'Διαδικτυακό μάθημα',
     course_home: 'Αρχική μαθήματος',
     language: 'Γλώσσα',
@@ -88,7 +90,7 @@ const UI = {
     banner_link: 'Στείλτε μας τα σχόλιά σας',
     english_only: 'Αυτό το υλικό είναι προς το παρόν διαθέσιμο μόνο στα αγγλικά.',
     pct_complete: 'Ολοκληρώθηκε το {pct}%',
-    type_lesson: 'Μάθημα', type_material: 'Σελίδα μελέτης', type_worksheet: 'Φύλλο εργασίας', type_activity: 'Διαδραστική δραστηριότητα', type_quiz: 'Κουίζ', type_teacher: 'Οδηγός εκπαιδευτικού',
+    type_lesson: 'Μάθημα', type_case: 'Μελέτη περίπτωσης', type_material: 'Σελίδα μελέτης', type_worksheet: 'Φύλλο εργασίας', type_activity: 'Διαδραστική δραστηριότητα', type_quiz: 'Κουίζ', type_teacher: 'Οδηγός εκπαιδευτικού',
     start_module1: 'Ξεκινήστε την Ενότητα 1',
     video_pending: 'Το βίντεο θα προστεθεί',
     back: 'Πίσω',
@@ -119,6 +121,7 @@ const UI = {
     home_page_title: 'GAMEMOB onlajn kurs – Besplatan MOOC o održivoj urbanoj mobilnosti',
     home_page_desc: 'Besplatan onlajn kurs o održivoj urbanoj mobilnosti i bezbednosti u saobraćaju za učenike uzrasta 12–19 godina, koji se prati sopstvenim tempom, iz projekta GAMEMOB koji finansira EU.',
     learn_page_title: 'Učenje – GAMEMOB onlajn kurs',
+    privacy_link: 'Privatnost', privacy_page_title: 'Privatnost – GAMEMOB onlajn kurs',
     logo_sub: 'Onlajn kurs',
     course_home: 'Početna strana kursa',
     language: 'Jezik',
@@ -141,7 +144,7 @@ const UI = {
     banner_link: 'Pošaljite nam svoje utiske',
     english_only: 'Ovaj materijal je za sada dostupan samo na engleskom jeziku.',
     pct_complete: 'Završeno: {pct}%',
-    type_lesson: 'Lekcija', type_material: 'Stranica za učenje', type_worksheet: 'Radni list', type_activity: 'Interaktivna aktivnost', type_quiz: 'Kviz', type_teacher: 'Vodič za nastavnike',
+    type_lesson: 'Lekcija', type_case: 'Studija slučaja', type_material: 'Stranica za učenje', type_worksheet: 'Radni list', type_activity: 'Interaktivna aktivnost', type_quiz: 'Kviz', type_teacher: 'Vodič za nastavnike',
     start_module1: 'Započnite Modul 1',
     video_pending: 'Video će biti dodat',
     back: 'Nazad',
@@ -212,7 +215,7 @@ function localiseCourse(course, text) {
     if (!tm) return;
     over(m, tm);
     m.lessons.forEach(l => over(l, (tm.lessons || {})[l.id]));
-    ['material', 'activity', 'worksheet', 'teacher', 'quiz'].forEach(k => over(m[k], tm[k]));
+    ['caseStudy', 'material', 'activity', 'worksheet', 'teacher', 'quiz'].forEach(k => over(m[k], tm[k]));
     const questions = (tm.quiz || {}).questions || [];
     m.quiz.questions.forEach((q, i) => {
       const tq = questions[i];
