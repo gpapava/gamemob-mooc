@@ -47,10 +47,29 @@ img { max-width: 100%; display: block; }
 .nav-right { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
 .eit-logo-img { height: 36px; width: auto; }
 .back-link { font-size: .875rem; text-underline-offset: 3px; }
+.lang-switch { display: flex; flex-shrink: 0; align-items: stretch; border: 2px solid var(--blue); border-radius: 6px; overflow: hidden; }
+.lang-globe { width: 36px; height: auto; padding: 0 8px; background: var(--blue-bg); fill: none; stroke: var(--blue); stroke-width: 1.8; }
+.lang-switch button { font: 600 .875rem/1 var(--sans); color: var(--blue); background: #fff; border: 0; border-left: 1px solid var(--blue); padding: 10px 12px; cursor: pointer; }
+.lang-switch button:hover { background: var(--blue-bg); }
+.lang-switch button[aria-pressed="true"] { background: var(--blue); color: #fff; }
+.lang-switch button:focus-visible { outline-offset: -4px; }
+.lang-switch button[aria-pressed="true"]:focus-visible { outline-color: #fff; }
+.lang-abbr { display: none; }
+@media (max-width: 1039px) { .lang-full { display: none; } .lang-abbr { display: inline; } }
 
-@media (max-width: 900px) { .eit-logo-img { height: 28px; } }
-@media (max-width: 640px) { .eit-logo-img { height: 22px; } .nav-logo small { display: none; } }
-@media (max-width: 520px) { .eit-logo-img { display: none; } }
+@media (max-width: 900px) { .eit-logo-img { height: 30px; } }
+@media (max-width: 640px) { .nav-logo small { display: none; } .nav-inner { padding: 0 16px; gap: 12px; } .nav-right { gap: 12px; } }
+@media (max-width: 860px) { .nav-logo small { display: none; } }
+/* narrower screens: drop the name beside the logo, then move the funding logos to their own row */
+@media (max-width: 800px) { .nav-logo span { display: none; } }
+@media (max-width: 700px) {
+  #navbar { position: static; }
+  .nav-inner { height: auto; min-height: 72px; padding-top: 10px; padding-bottom: 10px; }
+  .nav-right { flex-shrink: 1; min-width: 0; flex-wrap: wrap; justify-content: flex-end; row-gap: 8px; }
+  .eit-logo-img { order: 1; margin-left: auto; }
+  .back-link { line-height: 1.25; text-align: right; }
+}
+@media (max-width: 480px) { .lang-globe { width: 30px; padding: 0 5px; } .lang-switch button { padding: 10px 9px; } }
 
 /* ── Course home ── */
 .course-head { background: var(--surface); border-bottom: 1px solid var(--border); padding: 32px 0; }
@@ -81,6 +100,8 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
    LEARN / PLAYER PAGE
 ══════════════════════════════════════════ */
 .demo-banner { background: #fff6d6; border-bottom: 1px solid #eadb9c; font-size: .8125rem; padding: 8px 24px; }
+.demo-banner a { font-weight: 600; text-underline-offset: 3px; }
+.module-feedback { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 28px; padding: 16px 20px; background: var(--blue-bg); border-radius: 6px; font-size: .9375rem; }
 
 .player { display: grid; grid-template-columns: 300px minmax(0, 1fr); min-height: calc(100vh - 72px - 34px); }
 
@@ -146,6 +167,7 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
 .activity-status { font-weight: 600; color: var(--ink-2); }
 .activity-status.done { color: var(--green); }
 .activity-dl { color: var(--blue); }
+.lang-note { margin-bottom: 14px; padding: 10px 14px; background: var(--surface); border-radius: 4px; font-size: .875rem; color: var(--ink-2); }
 .activity-frame { display: block; width: 100%; height: 760px; border: 0; background: #fff; }
 
 @media (prefers-reduced-motion: reduce) {

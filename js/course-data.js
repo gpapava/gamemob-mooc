@@ -1,6 +1,9 @@
 /* Placeholder sample content — to be replaced with the real GAMEMOB MOOC material. */
 const COURSE = {
   title: "Play, Learn, Move Sustainably",
+  // Address of the anonymous beta feedback form. While it is empty, no feedback links are shown.
+  // Optional: put {module} in the address to pre-fill the module name in the form.
+  feedbackUrl: "",
   overview: {
     id: "intro",
     title: "About this course",

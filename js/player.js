@@ -18,7 +18,6 @@ function saveProgress(progress) {
 }
 
 // Build a flat, ordered list of items per module: lessons, interactive activity, study page, worksheet, quiz, teacher guide.
-const TYPE_LABEL = { lesson: 'Lesson', material: 'Study page', worksheet: 'Worksheet', activity: 'Interactive', quiz: 'Quiz', teacher: 'Teacher guide' };
 
 function buildItems() {
   const items = [{ type: 'intro', ...COURSE.overview }];
@@ -67,7 +66,7 @@ window.API = {
         renderProgressBar();
         renderSidebar(activeActivityId);
         const flag = document.getElementById('activity-status');
-        if (flag) { flag.textContent = 'Completed \u2713'; flag.classList.add('done'); }
+        if (flag) { flag.textContent = t('completed') + ' \u2713'; flag.classList.add('done'); }
       }
     }
     return 'true';
@@ -107,7 +106,7 @@ function pctComplete() {
 function renderProgressBar() {
   const pct = pctComplete();
   document.getElementById('progress-bar').style.width = pct + '%';
-  document.getElementById('progress-pct').textContent = pct + '% complete';
+  document.getElementById('progress-pct').textContent = t('pct_complete', { pct });
 }
 
 function renderSidebar(activeId) {
@@ -149,7 +148,7 @@ function renderSidebar(activeId) {
         + (item.id === activeId ? ' active' : '')
         + (progress[item.id] ? ' done' : '')
         + (item.type === 'quiz' ? ' quiz' : '');
-      row.innerHTML = `<span class="dot">${progress[item.id] ? '✓' : ''}</span><span class="sb-title">${item.title}<span class="sb-type">${TYPE_LABEL[item.type]}</span></span>`;
+      row.innerHTML = `<span class="dot">${progress[item.id] ? '✓' : ''}</span><span class="sb-title">${item.title}<span class="sb-type">${t('type_' + item.type)}</span></span>`;
       row.addEventListener('click', (e) => {
         e.preventDefault();
         navigateTo(item.id);
@@ -190,7 +189,7 @@ function renderIntro(item) {
     <div class="lesson-body intro-body">${item.body}</div>
     <div class="lesson-nav">
       <span class="spacer"></span>
-      <button class="btn btn-primary" id="btn-start">Start Module 1</button>
+      <button class="btn btn-primary" id="btn-start">${t('start_module1')}</button>
     </div>
   `;
 
@@ -205,13 +204,13 @@ function renderLesson(item) {
   main.innerHTML = `
     <div class="lesson-eyebrow">${item.moduleTitle}</div>
     <h1 class="lesson-title">${item.title}</h1>
-    <div class="lesson-video">Video to be added</div>
+    <div class="lesson-video">${t('video_pending')}</div>
     <div class="lesson-body">${item.body}</div>
     <div class="lesson-nav">
-      ${prev ? `<button class="btn btn-outline" id="btn-prev">Back</button>` : `<span></span>`}
+      ${prev ? `<button class="btn btn-outline" id="btn-prev">${t('back')}</button>` : `<span></span>`}
       <span class="spacer"></span>
       <button class="btn btn-primary" id="btn-complete">
-        ${next ? 'Mark complete and continue' : 'Mark complete'}
+        ${next ? t('complete_continue') : t('complete')}
       </button>
     </div>
   `;
@@ -224,11 +223,32 @@ function renderLesson(item) {
   });
 }
 
-const PAGE_KIND = {
-  material:  { eyebrow: 'Study page',    hint: 'Read the page, then continue' },
-  worksheet: { eyebrow: 'Worksheet',     hint: 'Print it or work from the screen, then continue' },
-  teacher:   { eyebrow: 'Teacher guide', hint: 'For teachers. Mark it complete when you have read it' }
-};
+/* ---- Beta feedback ---- */
+function feedbackLink(moduleId) {
+  // The form lists modules by their English titles, whatever language the course is shown in.
+  return (COURSE.feedbackUrl || '').replace('{module}', encodeURIComponent(MODULE_TITLES_EN[moduleId] || ''));
+}
+
+function renderBannerFeedback(moduleId) {
+  const link = document.getElementById('banner-feedback');
+  if (!COURSE.feedbackUrl) return;
+  link.href = feedbackLink(moduleId);
+  link.hidden = false;
+}
+
+/* Shown where a module ends: after the quiz for learners, on the teacher guide for teachers. */
+function addModuleFeedback(item) {
+  if (!COURSE.feedbackUrl) return;
+  const box = document.createElement('div');
+  box.className = 'module-feedback';
+  box.innerHTML = `
+    <p><strong>${t('fb_question')}</strong> ${t('fb_note')}</p>
+    <a class="btn" target="_blank" rel="noopener">${t('fb_button')}</a>
+  `;
+  box.querySelector('a').href = feedbackLink(item.moduleId);
+  const nav = document.querySelector('#main .lesson-nav');
+  nav.parentNode.insertBefore(box, nav);
+}
 
 /* Tell an embedded page it is inside the player, so it can drop repeated chrome.
    Pages opened on their own or from an LMS package are left as they are. */
@@ -237,22 +257,28 @@ function markEmbedded(frame, ...classes) {
   catch (e) { /* cross-origin: leave the page unchanged */ }
 }
 
+/* Activities and printable pages are not translated yet. */
+function englishOnlyNote() {
+  return LANG === 'en' ? '' : `<p class="lang-note">${t('english_only')}</p>`;
+}
+
 function renderMaterial(item) {
   const main = document.getElementById('main');
   const next = nextItem(item.id);
   const prev = prevItem(item.id);
 
   main.innerHTML = `
-    <div class="lesson-eyebrow">${item.moduleTitle}, ${PAGE_KIND[item.type].eyebrow.toLowerCase()}</div>
+    <div class="lesson-eyebrow">${item.moduleTitle}, ${t('type_' + item.type).toLowerCase()}</div>
+    ${englishOnlyNote()}
     <div class="activity-bar">
-      <span class="activity-status${progress[item.id] ? ' done' : ''}">${progress[item.id] ? 'Completed \u2713' : PAGE_KIND[item.type].hint}</span>
-      <a class="activity-dl" href="${item.src}" target="_blank" rel="noopener">Open in a new tab / print</a>
+      <span class="activity-status${progress[item.id] ? ' done' : ''}">${progress[item.id] ? t('completed') + ' \u2713' : t('hint_' + item.type)}</span>
+      <a class="activity-dl" href="${item.src}" target="_blank" rel="noopener">${t('open_print')}</a>
     </div>
-    <iframe id="material-frame" class="activity-frame material-frame" title="${item.title}" src="${item.src}"></iframe>
+    <iframe id="material-frame" class="activity-frame material-frame" lang="en" title="${item.title}" src="${item.src}"></iframe>
     <div class="lesson-nav">
-      ${prev ? `<button class="btn btn-outline" id="btn-prev">Back</button>` : `<span></span>`}
+      ${prev ? `<button class="btn btn-outline" id="btn-prev">${t('back')}</button>` : `<span></span>`}
       <span class="spacer"></span>
-      <button class="btn btn-primary" id="btn-complete">${next ? 'Mark complete and continue' : 'Mark complete'}</button>
+      <button class="btn btn-primary" id="btn-complete">${next ? t('complete_continue') : t('complete')}</button>
     </div>
   `;
 
@@ -290,15 +316,16 @@ function renderActivity(item) {
   main.innerHTML = `
     <div class="lesson-eyebrow">${item.moduleTitle}</div>
     <h1 class="lesson-title">${item.title}</h1>
+    ${englishOnlyNote()}
     <div class="activity-bar">
-      <span id="activity-status" class="activity-status${progress[item.id] ? ' done' : ''}">${progress[item.id] ? 'Completed \u2713' : 'Not completed yet'}</span>
-      <a class="activity-dl" href="${item.zip}" download>Download SCORM 1.2 package (.zip)</a>
+      <span id="activity-status" class="activity-status${progress[item.id] ? ' done' : ''}">${progress[item.id] ? t('completed') + ' \u2713' : t('not_completed')}</span>
+      <a class="activity-dl" href="${item.zip}" download>${t('download_scorm')}</a>
     </div>
     <iframe id="activity-frame" class="activity-frame" title="${item.title}" src="${item.src}" loading="lazy"></iframe>
     <div class="lesson-nav">
-      ${prev ? `<button class="btn btn-outline" id="btn-prev">Back</button>` : `<span></span>`}
+      ${prev ? `<button class="btn btn-outline" id="btn-prev">${t('back')}</button>` : `<span></span>`}
       <span class="spacer"></span>
-      ${next ? `<button class="btn btn-primary" id="btn-next">Continue</button>` : ''}
+      ${next ? `<button class="btn btn-primary" id="btn-next">${t('next')}</button>` : ''}
     </div>
   `;
 
@@ -338,9 +365,9 @@ function renderQuiz(item) {
     <h1 class="lesson-title">${item.title}</h1>
     <div id="quiz-questions"></div>
     <div class="lesson-nav">
-      ${prev ? `<button class="btn btn-outline" id="btn-prev">Back</button>` : `<span></span>`}
+      ${prev ? `<button class="btn btn-outline" id="btn-prev">${t('back')}</button>` : `<span></span>`}
       <span class="spacer"></span>
-      <button class="btn btn-primary" id="btn-check">Check answers</button>
+      <button class="btn btn-primary" id="btn-check">${t('check')}</button>
     </div>
   `;
 
@@ -387,13 +414,13 @@ function renderQuiz(item) {
       const fb = qEl.querySelector('.quiz-feedback');
       fb.style.display = 'block';
       if (chosenIdx === correctIdx) {
-        fb.textContent = 'Correct. ' + (item.questions[qi].explain || '');
+        fb.textContent = t('q_correct') + ' ' + (item.questions[qi].explain || '');
         fb.classList.add('correct');
       } else if (chosenIdx === null) {
-        fb.textContent = 'No answer selected. The correct one is highlighted above. ' + (item.questions[qi].explain || '');
+        fb.textContent = t('q_none') + ' ' + (item.questions[qi].explain || '');
         fb.classList.add('incorrect');
       } else {
-        fb.textContent = 'Not quite. The correct answer is highlighted above. ' + (item.questions[qi].explain || '');
+        fb.textContent = t('q_wrong') + ' ' + (item.questions[qi].explain || '');
         fb.classList.add('incorrect');
       }
     });
@@ -401,9 +428,10 @@ function renderQuiz(item) {
     markComplete(item.id);
     renderProgressBar();
     renderSidebar(item.id);
+    addModuleFeedback(item);
 
     const btn = document.getElementById('btn-check');
-    btn.textContent = next ? 'Continue' : 'Finish course';
+    btn.textContent = next ? t('next') : t('finish');
     btn.onclick = null;
     btn.addEventListener('click', () => {
       if (next) navigateTo(next.id);
@@ -417,12 +445,12 @@ function renderCertificate() {
   const savedName = localStorage.getItem(NAME_KEY) || '';
   main.innerHTML = `
     <div class="certificate">
-      <h2>Course complete</h2>
-      <p>Enter your name to generate your certificate of completion.</p>
-      <input type="text" id="cert-name" placeholder="Your name" value="${savedName}"
+      <h2>${t('cert_title')}</h2>
+      <p>${t('cert_text')}</p>
+      <input type="text" id="cert-name" placeholder="${t('cert_name')}" value="${savedName}"
         style="width:100%;max-width:320px;padding:12px 16px;border:1px solid var(--border);border-radius:4px;font-size:.9375rem;margin-bottom:20px;" />
       <div>
-        <button class="btn btn-primary" id="btn-print">Save or print certificate</button>
+        <button class="btn btn-primary" id="btn-print">${t('cert_print')}</button>
       </div>
     </div>
   `;
@@ -438,6 +466,7 @@ function render() {
     renderSidebar('certificate');
     renderProgressBar();
     renderCertificate();
+    renderBannerFeedback();
     return;
   }
 
@@ -451,6 +480,9 @@ function render() {
   else if (item.type === 'activity') renderActivity(item);
   else if (item.type === 'material' || item.type === 'worksheet' || item.type === 'teacher') renderMaterial(item);
   else renderLesson(item);
+
+  if (item.type === 'teacher') addModuleFeedback(item);
+  renderBannerFeedback(item.moduleId);
 }
 
 window.addEventListener('popstate', render);

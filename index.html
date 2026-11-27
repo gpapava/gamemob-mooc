@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GAMEMOB Online Course – Free MOOC on Sustainable Urban Mobility</title>
-  <meta name="description" content="A free, self-paced online course on sustainable urban mobility and road safety for students aged 12–19, developed by the EU-funded GAMEMOB project." />
+  <title data-i18n="home_page_title">GAMEMOB Online Course – Free MOOC on Sustainable Urban Mobility</title>
+  <meta name="description" data-i18n-content="home_page_desc" content="A free, self-paced online course on sustainable urban mobility and road safety for students aged 12–19, developed by the EU-funded GAMEMOB project." />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='2' y='2' width='28' height='28' rx='6' fill='%230b4f9c' /><path d='M16 7v4m0 3v4m0 3v4' stroke='white' stroke-width='3'/></svg>" />
 </head>
@@ -14,9 +14,10 @@
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
         <img src="assets/logo.png" alt="GAMEMOB logo" class="nav-logo-img" />
-        <span>GAMEMOB<br><small>Online course</small></span>
+        <span>GAMEMOB<br><small data-i18n="logo_sub">Online course</small></span>
       </a>
       <div class="nav-right">
+        <div class="lang-switch" id="lang-switch"></div>
         <img src="assets/eit-eu-logo.png" alt="EIT Urban Mobility – Co-funded by the European Union" class="eit-logo-img" />
         <a href="https://www.gamemob.eu" class="back-link">gamemob.eu</a>
       </div>
@@ -26,41 +27,45 @@
   <main>
     <header class="course-head">
       <div class="container">
-        <h1>Play, Learn, Move Sustainably</h1>
-        <p>A free online course on sustainable urban mobility and road safety for students aged 12–19, from the EU-funded GAMEMOB project.</p>
-        <a href="learn.html" class="btn btn-primary">Start the course</a>
+        <h1 id="course-title">Play, Learn, Move Sustainably</h1>
+        <p data-i18n="lead">A free online course on sustainable urban mobility and road safety for students aged 12–19, from the EU-funded GAMEMOB project.</p>
+        <a href="learn.html" class="btn btn-primary" data-i18n="start_course">Start the course</a>
       </div>
     </header>
 
     <div class="container course-body">
       <section id="syllabus">
-        <h2>Course modules</h2>
+        <h2 data-i18n="modules_heading">Course modules</h2>
         <ol id="module-list"></ol>
       </section>
 
       <aside class="details">
-        <h2>Course details</h2>
+        <h2 data-i18n="details_heading">Course details</h2>
         <dl>
-          <div><dt>Length</dt><dd>5 modules, about 10–12 hours</dd></div>
-          <div><dt>Pace</dt><dd>At your own pace</dd></div>
-          <div><dt>Cost</dt><dd>Free, no sign-up</dd></div>
-          <div><dt>Language</dt><dd>English, more to come</dd></div>
-          <div><dt>Progress</dt><dd>Saved on this device</dd></div>
-          <div><dt>Certificate</dt><dd>After all five modules</dd></div>
+          <div><dt data-i18n="d_length">Length</dt><dd data-i18n="d_length_v">5 modules, about 10–12 hours</dd></div>
+          <div><dt data-i18n="d_pace">Pace</dt><dd data-i18n="d_pace_v">At your own pace</dd></div>
+          <div><dt data-i18n="d_cost">Cost</dt><dd data-i18n="d_cost_v">Free, no sign-up</dd></div>
+          <div><dt data-i18n="d_lang">Languages</dt><dd data-i18n="d_lang_v">English, Greek, Serbian</dd></div>
+          <div><dt data-i18n="d_progress">Progress</dt><dd data-i18n="d_progress_v">Saved on this device</dd></div>
+          <div><dt data-i18n="d_cert">Certificate</dt><dd data-i18n="d_cert_v">After all five modules</dd></div>
         </dl>
-        <p><a class="link" href="learn.html?item=intro">About this course</a></p>
+        <p><a class="link" href="learn.html?item=intro" data-i18n="about_link">About this course</a></p>
       </aside>
     </div>
   </main>
 
   <footer>
     <div class="container">
-      <p>Part of the <a href="https://www.gamemob.eu">GAMEMOB</a> project, co-funded by EIT Urban Mobility and the European Union.</p>
+      <p data-i18n-html="footer">Part of the <a href="https://www.gamemob.eu">GAMEMOB</a> project, co-funded by EIT Urban Mobility and the European Union.</p>
     </div>
   </footer>
 
   <script src="js/course-data.js"></script>
+  <script src="js/course-el.js"></script>
+  <script src="js/course-sr.js"></script>
+  <script src="js/i18n.js"></script>
   <script>
+    document.getElementById('course-title').textContent = COURSE.title;
     const list = document.getElementById('module-list');
     COURSE.modules.forEach((m, i) => {
       const link = (item, label) => item ? `<a class="link" href="learn.html?item=${item.id}">${label}</a>` : '';
@@ -68,14 +73,14 @@
       row.className = 'module-row';
       row.innerHTML = `
         <div class="module-body">
-          <h3><a href="learn.html?module=${m.id}">Module ${i + 1}: ${m.title}</a></h3>
-          <p>Lessons: ${m.lessons.map(l => l.title).join('; ')}</p>
+          <h3><a href="learn.html?module=${m.id}">${t('module_n', { n: i + 1, title: m.title })}</a></h3>
+          <p>${t('lessons_list', { list: m.lessons.map(l => l.title).join(LANG === 'el' ? ' · ' : '; ') })}</p>
           <div class="module-links">
-            ${link(m.activity, m.activity && m.activity.title + ' (interactive)')}
-            ${link(m.material, 'Study page')}
-            ${link(m.worksheet, 'Worksheet')}
-            ${link(m.quiz, 'Quiz')}
-            ${link(m.teacher, 'Teacher guide')}
+            ${link(m.activity, m.activity && t('interactive_suffix', { title: m.activity.title }))}
+            ${link(m.material, t('type_material'))}
+            ${link(m.worksheet, t('type_worksheet'))}
+            ${link(m.quiz, t('type_quiz'))}
+            ${link(m.teacher, t('type_teacher'))}
           </div>
         </div>
       `;
